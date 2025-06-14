@@ -200,7 +200,7 @@ export default function PricingSection({
         </div>
 
         {/* 7 Day Trial */}
-        <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-8 text-center text-white">
+        <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-5 md:p-8 text-center text-white">
           <div className="text-4xl mb-4">🎁</div>
           <h3 className="text-2xl font-bold mb-4">7日間無料体験</h3>
           <p className="text-lg mb-6 opacity-90">

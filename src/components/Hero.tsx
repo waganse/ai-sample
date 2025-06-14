@@ -72,7 +72,7 @@ export default function Hero() {
   }, [images.length]);
 
   return (
-    <section className="relative min-h-[75vh] bg-gradient-to-br from-primary-50 via-gray-50 to-primary-100 overflow-hidden">
+    <section className="relative min-h-[90vh] bg-gradient-to-br from-primary-50 via-gray-50 to-primary-100 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 rounded-full opacity-20 animate-pulse"></div>
@@ -89,7 +89,7 @@ export default function Hero() {
         {/* Mobile First Content */}
         <div className="lg:hidden text-center space-y-6 mb-8">
           <div className="inline-flex items-center px-4 py-2 bg-primary-100 rounded-full text-primary-800 font-medium text-sm">
-            🌸 60歳からの新しいスタート
+            60歳からの新しいスタート
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
@@ -136,7 +136,7 @@ export default function Hero() {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden lg:flex items-center min-h-[75vh] relative">
+        <div className="hidden lg:flex items-center min-h-[90vh] relative">
           {/* Main Content Area */}
           <div className="w-full max-w-5xl mx-auto relative">
             {/* Left Content */}
@@ -147,7 +147,7 @@ export default function Hero() {
             >
               <div className="space-y-6">
                 <div className="inline-flex items-center px-4 py-2 bg-primary-100 rounded-full text-primary-800 font-medium text-sm animate-bounce-gentle">
-                  🌸 60歳からの新しいスタート
+                  60歳からの新しいスタート
                 </div>
 
                 <h1 className="text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">

@@ -56,6 +56,12 @@ export default function ServiceHero() {
       title: '新たな挑戦',
       subtitle: '年齢を重ねても輝く毎日',
     },
+    {
+      src: '/images/main9.png',
+      alt: '縁日和で新しい出会いを楽しむ60歳以上の方々',
+      title: '新しい出会い',
+      subtitle: '人生を豊かにする絆',
+    },
   ];
 
   useEffect(() => {
@@ -89,7 +95,7 @@ export default function ServiceHero() {
           <div className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-primary-100 rounded-full text-primary-800 font-medium text-sm">
-                🌸 縁日和のサービス詳細
+                縁日和のサービス詳細
               </div>
 
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">

@@ -47,11 +47,11 @@ export default function FeatureGrid({
 
     switch (variant) {
       case 'simple':
-        return `${baseClass} text-center p-8 bg-primary-50 rounded-2xl`;
+        return `${baseClass} text-center p-5 md:p-8 bg-primary-50 rounded-2xl`;
       case 'detailed':
         return `${baseClass} group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl hover:scale-105`;
       case 'card':
-        return `${baseClass} flex items-start p-8 bg-white rounded-2xl shadow`;
+        return `${baseClass} flex items-start p-5 md:p-8 bg-white rounded-2xl shadow`;
       default:
         return baseClass;
     }
