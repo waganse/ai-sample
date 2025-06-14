@@ -79,10 +79,28 @@ export default function EnhancedHero() {
 
   return (
     <section className="relative min-h-[90vh] overflow-hidden">
-      {/* Enhanced CSS Background Effects */}
+      {/* Background Image */}
       <div className="absolute inset-0">
-        {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50/90 via-purple-50/80 to-pink-50/90 animate-gradient-shift" />
+        {/* Full screen background image with transparency */}
+        <div className="absolute inset-0">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-all duration-1000 ${
+                index === currentImageIndex ? 'opacity-20' : 'opacity-0'
+              }`}
+            >
+              <img
+                src={image.src}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-50/70 via-purple-50/60 to-pink-50/70 animate-gradient-shift" />
 
         {/* Beautiful sakura petals falling */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -255,6 +273,7 @@ export default function EnhancedHero() {
             </div>
           </div>
 
+
           <div
             className={`flex flex-col gap-4 max-w-sm mx-auto ${
               isVisible ? 'animate-fade-in-up' : 'opacity-0'
@@ -394,18 +413,6 @@ export default function EnhancedHero() {
 
                     {/* Enhanced Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-
-                    {/* Enhanced Text overlay */}
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-white/95 backdrop-blur-lg rounded-xl p-4 shadow-xl border border-white/50 transition-all duration-500 hover:bg-white hover-lift">
-                        <div className="text-lg font-bold text-gray-800 mb-1">
-                          {images[currentImageIndex].title}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {images[currentImageIndex].subtitle}
-                        </div>
-                      </div>
-                    </div>
 
                     {/* Enhanced Image indicators */}
                     <div className="absolute top-4 right-4 flex flex-col space-y-2">
