@@ -7,6 +7,7 @@ import ServiceSafety from '@/components/service/ServiceSafety';
 import ServiceFAQ from '@/components/service/ServiceFAQ';
 import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 
 export default function ServicePage() {
   return (
@@ -20,6 +21,7 @@ export default function ServicePage() {
       <ServiceFAQ />
       <CTA />
       <Footer />
+      <ScrollToTop />
     </main>
   );
 }

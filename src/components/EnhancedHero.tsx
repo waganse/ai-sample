@@ -283,6 +283,24 @@ export default function EnhancedHero() {
             <button className="group relative overflow-hidden btn-primary text-lg px-8 py-4 w-full hover:scale-105 transition-all duration-500 hover:shadow-xl hover-glow">
               <span className="relative z-10">無料で始める（7日間無料）</span>
             </button>
+            <Link href="/service">
+              <button className="group btn-secondary text-lg px-8 py-4 w-full transition-all duration-500 hover:scale-105 hover:shadow-lg backdrop-blur-sm hover-lift">
+                サービス詳細を見る
+                <svg
+                  className="w-4 h-4 ml-2 inline group-hover:rotate-90 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+            </Link>
             <div className="text-center">
               <div className="text-xl font-bold text-primary-600">月額980円</div>
               <div className="text-sm text-gray-600">長期割引制度あり</div>
