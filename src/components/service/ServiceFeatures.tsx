@@ -51,8 +51,8 @@ export default function ServiceFeatures() {
     <section className="py-10 md:py-20 bg-white px-3 md:px-5">
       <div className="container-max">
         <SectionHeader
-          badge={{ icon: '✨', text: '縁日和の特徴' }}
-          title="なぜ縁日和が選ばれるのか"
+          badge={{ icon: '✨', text: 'トモリエの特徴' }}
+          title="なぜトモリエが選ばれるのか"
           description={
             <>
               60歳以上の方々のニーズに特化した、

@@ -94,7 +94,7 @@ export default function ServiceProcess() {
           <div className="inline-flex items-center px-4 py-2 bg-primary-100 rounded-full text-primary-800 font-medium text-sm mb-6">
             🚀 ご利用の流れ
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">縁日和の始め方</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">トモリエの始め方</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             あなたに合った出会いのスタイルで、
             <br className="md:hidden" />
@@ -155,7 +155,7 @@ export default function ServiceProcess() {
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 あなたに合った出会いスタイルを選択
               </h3>
-              <p className="text-gray-600 mb-6">縁日和では2つの出会い方をご用意しています</p>
+              <p className="text-gray-600 mb-6">トモリエでは2つの出会い方をご用意しています</p>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-white rounded-xl p-4 shadow-md">
                   <div className="text-2xl mb-2">💝</div>
@@ -281,7 +281,7 @@ export default function ServiceProcess() {
             <p className="text-gray-600 mb-6">
               7日間の無料体験で、
               <br className="md:hidden" />
-              縁日和の魅力を実感してください
+              トモリエの魅力を実感してください
             </p>
             <button className="btn-primary w-full py-4">無料で始める</button>
           </div>

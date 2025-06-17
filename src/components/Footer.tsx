@@ -4,14 +4,15 @@ export default function Footer() {
       <div className="container-max">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-primary-400 mb-4">縁日和</h3>
+            <h3 className="text-2xl font-bold text-primary-400 mb-4">トモリエ</h3>
             <p className="text-gray-300 leading-relaxed mb-6">
               60歳以上の方のための、安心でシンプルなマッチングアプリ。
+              <br />
               人生100年時代、心でつながる、第二の仲間を見つけませんか？
             </p>
             <div className="space-y-2">
               <p className="text-gray-300">
-                <span className="font-semibold">カスタマーサポート:</span> support@en-biyori.jp
+                <span className="font-semibold">カスタマーサポート:</span> support@tomorie.jp
               </p>
               <p className="text-gray-300">
                 <span className="font-semibold">受付時間:</span> 24時間受付（返信は営業日内）
@@ -97,7 +98,9 @@ export default function Footer() {
                 お問い合わせ
               </a>
             </div>
-            <p className="text-gray-400 text-sm">© 2024 縁日和. All rights reserved.</p>
+            <p className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} Tomorie. All rights reserved.
+            </p>
           </div>
         </div>
       </div>

@@ -1,0 +1,591 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ma/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// =================================
+// 認証・ユーザー管理
+// =================================
+
+model User {
+  id                     String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  authId                 String    @unique @map("auth_id") @db.Uuid
+  email                  String    @unique @db.VarChar(255)
+  displayName            String    @map("display_name") @db.VarChar(100)
+  birthDate              DateTime  @map("birth_date") @db.Date
+  gender                 Gender
+  prefecture             String    @db.VarChar(50)
+  city                   String?   @db.VarChar(100)
+  bio                    String?   @db.Text
+  occupation             String?   @db.VarChar(100)
+  education              String?   @db.VarChar(100)
+  interests              String[]  @db.Text
+  lookingFor             LookingFor @map("looking_for")
+  isVerified             Boolean   @default(false) @map("is_verified")
+  verificationStatus     VerificationStatus @default(PENDING) @map("verification_status")
+  subscriptionPlan       SubscriptionPlan @default(FREE) @map("subscription_plan")
+  subscriptionExpiresAt  DateTime? @map("subscription_expires_at") @db.Timestamptz
+  lastActiveAt           DateTime  @default(now()) @map("last_active_at") @db.Timestamptz
+  createdAt              DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  photos                 UserPhoto[]
+  verifications          UserVerification[]
+  likesGiven             Like[] @relation("LikeFrom")
+  likesReceived          Like[] @relation("LikeTo")
+  matchesAsUser1         Match[] @relation("MatchUser1")
+  matchesAsUser2         Match[] @relation("MatchUser2")
+  messagesSent           Message[] @relation("MessageSender")
+  communitiesCreated     Community[] @relation("CommunityCreator")
+  communityMemberships   CommunityMember[]
+  postsAuthored          CommunityPost[] @relation("PostAuthor")
+  commentsAuthored       PostComment[] @relation("CommentAuthor")
+  postLikes              PostLike[]
+  commentLikes           CommentLike[]
+  eventsOrganized        Event[] @relation("EventOrganizer")
+  eventParticipations    EventParticipant[]
+  reportsGiven           Report[] @relation("ReportReporter")
+  reportsReceived        Report[] @relation("ReportReported")
+  blocksGiven            BlockedUser[] @relation("BlockerUser")
+  blocksReceived         BlockedUser[] @relation("BlockedUser")
+  moderationLogs         ModerationLog[]
+  subscriptions          Subscription[]
+  paymentHistory         PaymentHistory[]
+  notifications          Notification[]
+  notificationSettings   NotificationSettings?
+
+  @@map("users")
+}
+
+model UserPhoto {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  photoUrl    String   @map("photo_url") @db.Text
+  isPrimary   Boolean  @default(false) @map("is_primary")
+  orderIndex  Int      @default(0) @map("order_index")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_photos")
+}
+
+model UserVerification {
+  id                 String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId             String             @map("user_id") @db.Uuid
+  documentType       DocumentType       @map("document_type")
+  documentUrl        String             @map("document_url") @db.Text
+  verificationStatus VerificationStatus @default(PENDING) @map("verification_status")
+  verifiedAt         DateTime?          @map("verified_at") @db.Timestamptz
+  verifiedBy         String?            @map("verified_by") @db.Uuid
+  notes              String?            @db.Text
+  createdAt          DateTime           @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_verification")
+}
+
+// =================================
+// マッチング機能
+// =================================
+
+model Like {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  fromUserId String   @map("from_user_id") @db.Uuid
+  toUserId   String   @map("to_user_id") @db.Uuid
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  fromUser   User     @relation("LikeFrom", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser     User     @relation("LikeTo", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  @@unique([fromUserId, toUserId])
+  @@map("likes")
+}
+
+model Match {
+  id              String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user1Id         String    @map("user1_id") @db.Uuid
+  user2Id         String    @map("user2_id") @db.Uuid
+  matchedAt       DateTime  @default(now()) @map("matched_at") @db.Timestamptz
+  isActive        Boolean   @default(true) @map("is_active")
+  lastMessageAt   DateTime? @map("last_message_at") @db.Timestamptz
+
+  // Relations
+  user1           User      @relation("MatchUser1", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2           User      @relation("MatchUser2", fields: [user2Id], references: [id], onDelete: Cascade)
+  messages        Message[]
+
+  @@unique([user1Id, user2Id])
+  @@map("matches")
+}
+
+model Message {
+  id          String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  matchId     String      @map("match_id") @db.Uuid
+  senderId    String      @map("sender_id") @db.Uuid
+  content     String      @db.Text
+  messageType MessageType @default(TEXT) @map("message_type")
+  isRead      Boolean     @default(false) @map("is_read")
+  readAt      DateTime?   @map("read_at") @db.Timestamptz
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  match       Match       @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  sender      User        @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+// =================================
+// コミュニティ機能
+// =================================
+
+model Community {
+  id           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String    @db.VarChar(100)
+  description  String?   @db.Text
+  category     String?   @db.VarChar(50)
+  coverImageUrl String?  @map("cover_image_url") @db.Text
+  creatorId    String?   @map("creator_id") @db.Uuid
+  memberCount  Int       @default(0) @map("member_count")
+  maxMembers   Int       @default(500) @map("max_members")
+  isPublic     Boolean   @default(true) @map("is_public")
+  isActive     Boolean   @default(true) @map("is_active")
+  region       String?   @db.VarChar(50)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  creator      User?            @relation("CommunityCreator", fields: [creatorId], references: [id], onDelete: SetNull)
+  members      CommunityMember[]
+  posts        CommunityPost[]
+  events       Event[]
+
+  @@map("communities")
+}
+
+model CommunityMember {
+  id          String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  communityId String          @map("community_id") @db.Uuid
+  userId      String          @map("user_id") @db.Uuid
+  role        CommunityRole   @default(MEMBER)
+  joinedAt    DateTime        @default(now()) @map("joined_at") @db.Timestamptz
+  isActive    Boolean         @default(true) @map("is_active")
+
+  // Relations
+  community   Community       @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([communityId, userId])
+  @@map("community_members")
+}
+
+model CommunityPost {
+  id           String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  communityId  String        @map("community_id") @db.Uuid
+  authorId     String        @map("author_id") @db.Uuid
+  title        String?       @db.VarChar(200)
+  content      String        @db.Text
+  postType     PostType      @default(DISCUSSION) @map("post_type")
+  imageUrls    String[]      @map("image_urls") @db.Text
+  likeCount    Int           @default(0) @map("like_count")
+  commentCount Int           @default(0) @map("comment_count")
+  isPinned     Boolean       @default(false) @map("is_pinned")
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  community    Community     @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  author       User          @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  comments     PostComment[]
+  likes        PostLike[]
+
+  @@map("community_posts")
+}
+
+model PostComment {
+  id              String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  postId          String        @map("post_id") @db.Uuid
+  authorId        String        @map("author_id") @db.Uuid
+  content         String        @db.Text
+  parentCommentId String?       @map("parent_comment_id") @db.Uuid
+  likeCount       Int           @default(0) @map("like_count")
+  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  post            CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author          User          @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  parentComment   PostComment?  @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies         PostComment[] @relation("CommentReplies")
+  likes           CommentLike[]
+
+  @@map("post_comments")
+}
+
+model PostLike {
+  id        String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  postId    String        @map("post_id") @db.Uuid
+  userId    String        @map("user_id") @db.Uuid
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("post_likes")
+}
+
+model CommentLike {
+  id        String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  commentId String      @map("comment_id") @db.Uuid
+  userId    String      @map("user_id") @db.Uuid
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@map("comment_likes")
+}
+
+// =================================
+// イベント機能
+// =================================
+
+model Event {
+  id                   String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title                String              @db.VarChar(200)
+  description          String?             @db.Text
+  eventType            EventType?          @map("event_type")
+  location             String?             @db.VarChar(200)
+  prefecture           String?             @db.VarChar(50)
+  city                 String?             @db.VarChar(100)
+  startDatetime        DateTime            @map("start_datetime") @db.Timestamptz
+  endDatetime          DateTime?           @map("end_datetime") @db.Timestamptz
+  maxParticipants      Int?                @map("max_participants")
+  currentParticipants  Int                 @default(0) @map("current_participants")
+  fee                  Int                 @default(0)
+  organizerId          String?             @map("organizer_id") @db.Uuid
+  communityId          String?             @map("community_id") @db.Uuid
+  coverImageUrl        String?             @map("cover_image_url") @db.Text
+  isActive             Boolean             @default(true) @map("is_active")
+  registrationDeadline DateTime?           @map("registration_deadline") @db.Timestamptz
+  createdAt            DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  organizer            User?               @relation("EventOrganizer", fields: [organizerId], references: [id], onDelete: SetNull)
+  community            Community?          @relation(fields: [communityId], references: [id], onDelete: SetNull)
+  participants         EventParticipant[]
+
+  @@map("events")
+}
+
+model EventParticipant {
+  id           String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  eventId      String              @map("event_id") @db.Uuid
+  userId       String              @map("user_id") @db.Uuid
+  status       ParticipantStatus   @default(REGISTERED)
+  registeredAt DateTime            @default(now()) @map("registered_at") @db.Timestamptz
+
+  // Relations
+  event        Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@map("event_participants")
+}
+
+// =================================
+// セキュリティ・監視
+// =================================
+
+model Report {
+  id                    String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  reporterId            String?       @map("reporter_id") @db.Uuid
+  reportedUserId        String?       @map("reported_user_id") @db.Uuid
+  reportedContentId     String?       @map("reported_content_id") @db.Uuid
+  reportedContentType   ContentType?  @map("reported_content_type")
+  reason                String        @db.VarChar(100)
+  description           String?       @db.Text
+  status                ReportStatus  @default(PENDING)
+  resolvedBy            String?       @map("resolved_by") @db.Uuid
+  resolvedAt            DateTime?     @map("resolved_at") @db.Timestamptz
+  createdAt             DateTime      @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  reporter              User?         @relation("ReportReporter", fields: [reporterId], references: [id], onDelete: SetNull)
+  reportedUser          User?         @relation("ReportReported", fields: [reportedUserId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+model BlockedUser {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  blockerId String   @map("blocker_id") @db.Uuid
+  blockedId String   @map("blocked_id") @db.Uuid
+  reason    String?  @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  blocker   User     @relation("BlockerUser", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked   User     @relation("BlockedUser", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@map("blocked_users")
+}
+
+model ModerationLog {
+  id                  String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  moderatorId         String?   @map("moderator_id") @db.Uuid
+  actionType          String    @map("action_type") @db.VarChar(50)
+  targetUserId        String?   @map("target_user_id") @db.Uuid
+  targetContentId     String?   @map("target_content_id") @db.Uuid
+  targetContentType   String?   @map("target_content_type") @db.VarChar(50)
+  reason              String    @db.Text
+  actionDuration      String?   @map("action_duration") // PostgreSQL INTERVAL を String で管理
+  createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  targetUser          User?     @relation(fields: [targetUserId], references: [id], onDelete: SetNull)
+
+  @@map("moderation_logs")
+}
+
+// =================================
+// サブスクリプション・決済
+// =================================
+
+model Subscription {
+  id                     String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId                 String           @map("user_id") @db.Uuid
+  planType               SubscriptionPlan @map("plan_type")
+  status                 SubscriptionStatus @default(ACTIVE)
+  paymentProvider        PaymentProvider? @map("payment_provider") @default(STRIPE)
+  stripeCustomerId       String?          @map("stripe_customer_id") @db.VarChar(200)
+  stripeSubscriptionId   String?          @map("stripe_subscription_id") @db.VarChar(200)
+  stripePriceId          String?          @map("stripe_price_id") @db.VarChar(200)
+  startedAt              DateTime         @default(now()) @map("started_at") @db.Timestamptz
+  expiresAt              DateTime         @map("expires_at") @db.Timestamptz
+  autoRenew              Boolean          @default(true) @map("auto_renew")
+  cancelledAt            DateTime?        @map("cancelled_at") @db.Timestamptz
+  createdAt              DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  user                   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentHistory         PaymentHistory[]
+
+  @@map("subscriptions")
+}
+
+model PaymentHistory {
+  id             String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  subscriptionId String?           @map("subscription_id") @db.Uuid
+  userId         String            @map("user_id") @db.Uuid
+  amount         Int
+  currency       String            @default("JPY") @db.VarChar(3)
+  paymentProvider PaymentProvider? @map("payment_provider") @default(STRIPE)
+  paymentMethod  String?           @map("payment_method") @db.VarChar(50)
+  stripePaymentIntentId String?     @map("stripe_payment_intent_id") @db.VarChar(200)
+  stripeChargeId String?           @map("stripe_charge_id") @db.VarChar(200)
+  stripeInvoiceId String?          @map("stripe_invoice_id") @db.VarChar(200)
+  status         PaymentStatus     @default(PENDING)
+  paidAt         DateTime?         @map("paid_at") @db.Timestamptz
+  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  subscription   Subscription?     @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payment_history")
+}
+
+model StripeWebhook {
+  id            String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  stripeEventId String   @unique @map("stripe_event_id") @db.VarChar(200)
+  eventType     String   @map("event_type") @db.VarChar(100)
+  processed     Boolean  @default(false)
+  data          Json
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("stripe_webhooks")
+}
+
+model StripePlan {
+  id              String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  planType        SubscriptionPlan @map("plan_type") @unique
+  stripePriceId   String   @unique @map("stripe_price_id") @db.VarChar(200)
+  stripeProductId String   @map("stripe_product_id") @db.VarChar(200)
+  amount          Int      // 金額（円）
+  currency        String   @default("JPY") @db.VarChar(3)
+  interval        String   @db.VarChar(20) // month, year
+  intervalCount   Int      @default(1) @map("interval_count")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("stripe_plans")
+}
+
+// =================================
+// 通知機能
+// =================================
+
+model Notification {
+  id          String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId      String            @map("user_id") @db.Uuid
+  title       String            @db.VarChar(200)
+  content     String            @db.Text
+  type        NotificationType
+  relatedId   String?           @map("related_id") @db.Uuid
+  relatedType String?           @map("related_type") @db.VarChar(50)
+  isRead      Boolean           @default(false) @map("is_read")
+  readAt      DateTime?         @map("read_at") @db.Timestamptz
+  createdAt   DateTime          @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model NotificationSettings {
+  id                     String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId                 String   @unique @map("user_id") @db.Uuid
+  emailNotifications     Boolean  @default(true) @map("email_notifications")
+  pushNotifications      Boolean  @default(true) @map("push_notifications")
+  matchNotifications     Boolean  @default(true) @map("match_notifications")
+  messageNotifications   Boolean  @default(true) @map("message_notifications")
+  communityNotifications Boolean  @default(true) @map("community_notifications")
+  eventNotifications     Boolean  @default(true) @map("event_notifications")
+  createdAt              DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification_settings")
+}
+
+// =================================
+// Enums
+// =================================
+
+enum Gender {
+  MALE   @map("male")
+  FEMALE @map("female")
+  OTHER  @map("other")
+}
+
+enum LookingFor {
+  FRIENDSHIP     @map("friendship")
+  ROMANCE        @map("romance")
+  HOBBY_PARTNER  @map("hobby_partner")
+  COUNSELOR      @map("counselor")
+}
+
+enum VerificationStatus {
+  PENDING  @map("pending")
+  APPROVED @map("approved")
+  REJECTED @map("rejected")
+}
+
+enum SubscriptionPlan {
+  FREE      @map("free")
+  MONTHLY   @map("monthly")
+  THREE_MONTH @map("3month")
+  SIX_MONTH @map("6month")
+  YEARLY    @map("yearly")
+}
+
+enum DocumentType {
+  LICENSE   @map("license")
+  MYNUMBER  @map("mynumber")
+  INSURANCE @map("insurance")
+}
+
+enum MessageType {
+  TEXT   @map("text")
+  IMAGE  @map("image")
+  SYSTEM @map("system")
+}
+
+enum CommunityRole {
+  ADMIN     @map("admin")
+  MODERATOR @map("moderator")
+  MEMBER    @map("member")
+}
+
+enum PostType {
+  DISCUSSION   @map("discussion")
+  EVENT        @map("event")
+  ANNOUNCEMENT @map("announcement")
+}
+
+enum EventType {
+  ONLINE  @map("online")
+  OFFLINE @map("offline")
+  HYBRID  @map("hybrid")
+}
+
+enum ParticipantStatus {
+  REGISTERED @map("registered")
+  ATTENDED   @map("attended")
+  CANCELLED  @map("cancelled")
+}
+
+enum ContentType {
+  USER    @map("user")
+  MESSAGE @map("message")
+  POST    @map("post")
+  COMMENT @map("comment")
+}
+
+enum ReportStatus {
+  PENDING       @map("pending")
+  INVESTIGATING @map("investigating")
+  RESOLVED      @map("resolved")
+  DISMISSED     @map("dismissed")
+}
+
+enum SubscriptionStatus {
+  ACTIVE    @map("active")
+  CANCELLED @map("cancelled")
+  EXPIRED   @map("expired")
+}
+
+enum PaymentProvider {
+  STRIPE @map("stripe")
+}
+
+enum PaymentStatus {
+  PENDING   @map("pending")
+  COMPLETED @map("completed")
+  FAILED    @map("failed")
+  REFUNDED  @map("refunded")
+}
+
+enum NotificationType {
+  MATCH     @map("match")
+  MESSAGE   @map("message")
+  LIKE      @map("like")
+  COMMUNITY @map("community")
+  EVENT     @map("event")
+  SYSTEM    @map("system")
+}

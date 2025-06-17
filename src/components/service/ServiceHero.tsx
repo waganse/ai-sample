@@ -10,55 +10,55 @@ export default function ServiceHero() {
   const images = [
     {
       src: '/images/main.png',
-      alt: '縁日和で素敵な出会いを見つけた60歳以上の方々',
+      alt: 'トモリエで素敵な出会いを見つけた60歳以上の方々',
       title: '安心のマッチング',
       subtitle: '60歳からの新しいスタート',
     },
     {
       src: '/images/main2.png',
-      alt: '縁日和で友達の輪を広げた60歳以上の方々',
+      alt: 'トモリエで友達の輪を広げた60歳以上の方々',
       title: '友達作りから',
       subtitle: '趣味の仲間と楽しく',
     },
     {
       src: '/images/main3.png',
-      alt: '縁日和でコミュニティ活動を楽しむ60歳以上の方々',
+      alt: 'トモリエでコミュニティ活動を楽しむ60歳以上の方々',
       title: 'コミュニティ参加',
       subtitle: 'イベントで自然な出会い',
     },
     {
       src: '/images/main4.png',
-      alt: '縁日和でパートナーを見つけた60歳以上のカップル',
+      alt: 'トモリエでパートナーを見つけた60歳以上のカップル',
       title: 'パートナー探し',
       subtitle: '心ときめく出会いを',
     },
     {
       src: '/images/main5.png',
-      alt: '縁日和で充実した時間を過ごす60歳以上の方々',
+      alt: 'トモリエで充実した時間を過ごす60歳以上の方々',
       title: '豊かなセカンドライフ',
       subtitle: '新たな人生の始まり',
     },
     {
       src: '/images/main6.png',
-      alt: '縁日和で新しい趣味を見つけた60歳以上の方々',
+      alt: 'トモリエで新しい趣味を見つけた60歳以上の方々',
       title: '新しい趣味発見',
       subtitle: '生きがいのある毎日',
     },
     {
       src: '/images/main7.png',
-      alt: '縁日和で一緒に過ごす時間を大切にする60歳以上の方々',
+      alt: 'トモリエで一緒に過ごす時間を大切にする60歳以上の方々',
       title: '温かなつながり',
       subtitle: '心の支えあい',
     },
     {
       src: '/images/main8.png',
-      alt: '縁日和で新たな挑戦を楽しむ60歳以上の方々',
+      alt: 'トモリエで新たな挑戦を楽しむ60歳以上の方々',
       title: '新たな挑戦',
       subtitle: '年齢を重ねても輝く毎日',
     },
     {
       src: '/images/main9.png',
-      alt: '縁日和で新しい出会いを楽しむ60歳以上の方々',
+      alt: 'トモリエで新しい出会いを楽しむ60歳以上の方々',
       title: '新しい出会い',
       subtitle: '人生を豊かにする絆',
     },
@@ -95,26 +95,26 @@ export default function ServiceHero() {
           <div className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-primary-100 rounded-full text-primary-800 font-medium text-sm">
-                縁日和のサービス詳細
+トモリエのサービス詳細
               </div>
 
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
                 安心・簡単・
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-500">
-                  60歳からの
+<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-500">
+                  心に灯りを
                 </span>
                 <br />
-                新しい出会い
+                ともすアトリエ
               </h1>
 
               <p className="text-lg text-gray-700 leading-relaxed">
-                縁日和は、60歳以上の方々が安心して利用できる、月額980円のマッチングサービスです。
+トモリエは、ご近所での気軽な出会いから始まる、大人のためのマッチングサービスです。
                 <br />
                 シンプルな操作性と充実したサポート体制で、
                 <br />
                 <span className="font-semibold text-primary-600">
-                  人生の新しい章を素敵な仲間とともに。
+                  成熟した大人の新しいつながりを応援します。
                 </span>
               </p>
             </div>

@@ -1,0 +1,487 @@
+@startuml トモリエ画面設計
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontSize 12
+skinparam defaultFontName "Noto Sans JP"
+
+title トモリエ（Tomorie）画面設計・画面遷移図
+
+package "認証関連画面" as auth {
+  [ウェルカム画面] as welcome
+  [ログイン/登録画面] as login
+  [認証コード入力画面] as code_input
+  [SSO認証画面] as sso
+  [初回プロフィール設定1\n基本情報] as profile1
+  [初回プロフィール設定2\n居住地・職業] as profile2
+  [初回プロフィール設定3\n趣味・関心事] as profile3
+  [初回プロフィール設定4\n目的・写真] as profile4
+}
+
+package "メイン機能画面" as main {
+  [ホーム画面\nダッシュボード] as home
+  [お相手候補画面\nマッチング] as matching
+  [お相手詳細画面] as profile_detail
+  [メッセージ一覧画面] as message_list
+  [個別メッセージ画面] as message_detail
+  [コミュニティ一覧画面] as community_list
+  [コミュニティ詳細画面] as community_detail
+  [プロフィール/設定画面] as profile_settings
+}
+
+package "サポート機能画面" as support {
+  [ヘルプ/FAQ画面] as help
+  [通報画面] as report
+  [ブロック管理画面] as block
+  [カスタマーサポート画面] as customer_support
+  [設定画面] as settings
+  [サブスクリプション画面] as subscription
+}
+
+package "追加機能画面" as additional {
+  [イベント一覧画面] as event_list
+  [イベント詳細画面] as event_detail
+  [本人確認画面] as verification
+  [写真アップロード画面] as photo_upload
+  [検索フィルター画面] as search_filter
+}
+
+' 認証フロー
+welcome --> login : "新規登録/ログイン"
+login --> code_input : "認証コード送信"
+login --> sso : "SSO選択"
+sso --> home : "認証成功（既存ユーザー）"
+sso --> profile1 : "認証成功（新規ユーザー）"
+code_input --> home : "認証成功（既存ユーザー）"
+code_input --> profile1 : "認証成功（新規ユーザー）"
+profile1 --> profile2 : "次へ"
+profile2 --> profile3 : "次へ"
+profile3 --> profile4 : "次へ"
+profile4 --> home : "プロフィール完成"
+
+' メイン画面間の遷移
+home --> matching : "タブ切り替え"
+home --> message_list : "タブ切り替え"
+home --> community_list : "タブ切り替え"
+home --> profile_settings : "タブ切り替え"
+
+matching --> profile_detail : "お相手選択"
+matching --> search_filter : "検索フィルター"
+profile_detail --> message_detail : "メッセージ送信"
+
+message_list --> message_detail : "メッセージ選択"
+message_detail --> photo_upload : "写真送信"
+message_detail --> report : "通報"
+
+community_list --> community_detail : "コミュニティ選択"
+community_detail --> event_detail : "イベント参加"
+
+profile_settings --> settings : "設定"
+profile_settings --> subscription : "サブスクリプション"
+profile_settings --> verification : "本人確認"
+profile_settings --> help : "ヘルプ"
+
+' サポート機能への遷移
+settings --> block : "ブロック管理"
+help --> customer_support : "サポート問い合わせ"
+
+note right of welcome
+  **ウェルカム画面**
+  - サービス説明
+  - 新規登録/ログインボタン
+  - 利用規約・プライバシーポリシー
+end note
+
+note right of login
+  **ログイン/登録画面**
+  - メールアドレス入力
+  - 認証コード送信ボタン
+  - SSO選択肢（Google, LINE, Facebook）
+  - パスワードレス認証
+end note
+
+note right of home
+  **ホーム画面**
+  - 今日のおすすめ
+  - 注目のコミュニティ
+  - 近日開催のイベント
+  - タブナビゲーション
+end note
+
+note right of matching
+  **お相手候補画面**
+  - カード形式表示
+  - スワイプ操作
+  - いいね/パス/メッセージ
+  - 検索フィルター
+end note
+
+note right of community_list
+  **コミュニティ画面**
+  - 参加中コミュニティ
+  - おすすめコミュニティ
+  - 新規作成ボタン
+  - カテゴリ別表示
+end note
+
+@enduml
+
+' ================================
+' 画面詳細設計
+' ================================
+
+@startuml 認証画面詳細設計
+!theme plain
+
+title 認証画面詳細設計
+
+class "ウェルカム画面" {
+  + サービスロゴ : Image
+  + サービス説明 : Text
+  + 新規登録ボタン : Button
+  + ログインボタン : Button
+  + 利用規約リンク : Link
+  + プライバシーポリシーリンク : Link
+  --
+  + onRegisterTap() : void
+  + onLoginTap() : void
+}
+
+class "ログイン/登録画面" {
+  + タイトル : Text
+  + メールアドレス入力 : TextInput
+  + 認証コード送信ボタン : Button
+  + Googleログインボタン : Button
+  + LINEログインボタン : Button
+  + Facebookログインボタン : Button
+  + 戻るボタン : Button
+  --
+  + onSendCodeTap() : void
+  + onGoogleLogin() : void
+  + onLineLogin() : void
+  + onFacebookLogin() : void
+  + validateEmail() : boolean
+}
+
+class "認証コード入力画面" {
+  + タイトル : Text
+  + メール送信確認メッセージ : Text
+  + 6桁コード入力フィールド : CodeInput
+  + ログインボタン : Button
+  + 再送信ボタン : Button
+  + メールアドレス変更リンク : Link
+  + 戻るボタン : Button
+  --
+  + onCodeInput(code: string) : void
+  + onLoginTap() : void
+  + onResendTap() : void
+  + validateCode() : boolean
+}
+
+class "初回プロフィール設定1" {
+  + プログレスバー : ProgressBar
+  + ニックネーム入力 : TextInput
+  + 生年月日選択 : DatePicker
+  + 性別選択 : RadioButton
+  + 次へボタン : Button
+  + 戻るボタン : Button
+  --
+  + onNextTap() : void
+  + validateInputs() : boolean
+}
+
+@enduml
+
+@startuml メイン画面詳細設計
+!theme plain
+
+title メイン画面詳細設計
+
+class "ホーム画面" {
+  + ヘッダー : Header
+  + 挨拶メッセージ : Text
+  + 今日のおすすめカード : Card[]
+  + 注目コミュニティリスト : List
+  + 近日イベントリスト : List
+  + タブナビゲーション : TabBar
+  --
+  + onRecommendationTap(userId: string) : void
+  + onCommunityTap(communityId: string) : void
+  + onEventTap(eventId: string) : void
+}
+
+class "お相手候補画面" {
+  + ヘッダー : Header
+  + ユーザーカード : UserCard
+  + ユーザー写真 : Image[]
+  + ユーザー情報 : UserInfo
+  + パスボタン : Button
+  + メッセージボタン : Button
+  + いいねボタン : Button
+  + 検索フィルターボタン : Button
+  --
+  + onPassTap() : void
+  + onMessageTap() : void
+  + onLikeTap() : void
+  + onFilterTap() : void
+  + loadNextCandidate() : void
+}
+
+class "メッセージ一覧画面" {
+  + ヘッダー : Header
+  + メッセージリスト : MessageList
+  + メッセージアイテム : MessageItem[]
+  + 検索バー : SearchBar
+  + タブナビゲーション : TabBar
+  --
+  + onMessageTap(matchId: string) : void
+  + onSearchInput(query: string) : void
+  + loadMessages() : void
+}
+
+class "個別メッセージ画面" {
+  + ヘッダー : Header
+  + 相手情報 : UserInfo
+  + メッセージリスト : MessageList
+  + メッセージ入力 : TextInput
+  + 写真添付ボタン : Button
+  + 送信ボタン : Button
+  + 通話ボタン : Button
+  + 設定ボタン : Button
+  --
+  + onSendMessage(text: string) : void
+  + onPhotoAttach() : void
+  + onCallTap() : void
+  + loadMessageHistory() : void
+}
+
+class "コミュニティ一覧画面" {
+  + ヘッダー : Header
+  + 参加中コミュニティリスト : List
+  + おすすめコミュニティリスト : List
+  + 検索バー : SearchBar
+  + 新規作成ボタン : Button
+  + カテゴリフィルター : FilterTabs
+  --
+  + onCommunityTap(communityId: string) : void
+  + onCreateTap() : void
+  + onSearchInput(query: string) : void
+  + onCategoryFilter(category: string) : void
+}
+
+class "プロフィール/設定画面" {
+  + ヘッダー : Header
+  + プロフィール写真 : Image
+  + ユーザー名 : Text
+  + 基本情報 : Text
+  + プロフィール編集ボタン : Button
+  + 完成度表示 : ProgressBar
+  + 設定メニューリスト : List
+  + ログアウトボタン : Button
+  --
+  + onEditProfileTap() : void
+  + onSettingItemTap(item: string) : void
+  + onLogoutTap() : void
+}
+
+@enduml
+
+@startuml 画面状態管理
+!theme plain
+
+title 画面状態管理
+
+enum AuthState {
+  UNAUTHENTICATED
+  AUTHENTICATING
+  AUTHENTICATED
+  PROFILE_INCOMPLETE
+  PROFILE_COMPLETE
+}
+
+enum LoadingState {
+  IDLE
+  LOADING
+  SUCCESS
+  ERROR
+}
+
+class "画面共通状態" {
+  + authState : AuthState
+  + loadingState : LoadingState
+  + errorMessage : string
+  + isNetworkConnected : boolean
+  --
+  + setAuthState(state: AuthState) : void
+  + setLoadingState(state: LoadingState) : void
+  + setError(message: string) : void
+}
+
+class "ユーザー状態" {
+  + currentUser : User
+  + userProfile : UserProfile
+  + subscription : Subscription
+  + notifications : Notification[]
+  --
+  + updateUser(user: User) : void
+  + updateProfile(profile: UserProfile) : void
+  + updateSubscription(sub: Subscription) : void
+}
+
+class "マッチング状態" {
+  + candidates : User[]
+  + currentCandidateIndex : number
+  + likes : Like[]
+  + matches : Match[]
+  + filters : SearchFilter
+  --
+  + loadCandidates() : void
+  + nextCandidate() : void
+  + sendLike(userId: string) : void
+  + updateFilters(filters: SearchFilter) : void
+}
+
+class "メッセージ状態" {
+  + conversations : Conversation[]
+  + currentConversation : Conversation
+  + messages : Message[]
+  + unreadCount : number
+  --
+  + loadConversations() : void
+  + loadMessages(conversationId: string) : void
+  + sendMessage(message: Message) : void
+  + markAsRead(messageId: string) : void
+}
+
+class "コミュニティ状態" {
+  + joinedCommunities : Community[]
+  + recommendedCommunities : Community[]
+  + currentCommunity : Community
+  + posts : Post[]
+  --
+  + loadCommunities() : void
+  + joinCommunity(communityId: string) : void
+  + leaveCommunity(communityId: string) : void
+  + createPost(post: Post) : void
+}
+
+@enduml
+
+@startuml エラーハンドリング
+!theme plain
+
+title エラーハンドリング・空状態設計
+
+class "エラー表示コンポーネント" {
+  + errorType : ErrorType
+  + errorMessage : string
+  + retryButton : Button
+  + supportButton : Button
+  --
+  + onRetryTap() : void
+  + onSupportTap() : void
+  + getErrorIcon() : Icon
+  + getErrorMessage() : string
+}
+
+enum ErrorType {
+  NETWORK_ERROR
+  SERVER_ERROR
+  AUTHENTICATION_ERROR
+  VALIDATION_ERROR
+  PERMISSION_ERROR
+}
+
+class "空状態表示コンポーネント" {
+  + emptyType : EmptyType
+  + illustration : Image
+  + title : string
+  + description : string
+  + actionButton : Button
+  --
+  + onActionTap() : void
+  + getEmptyIllustration() : Image
+  + getEmptyMessage() : string
+}
+
+enum EmptyType {
+  NO_MESSAGES
+  NO_MATCHES
+  NO_COMMUNITIES
+  NO_EVENTS
+  NO_NOTIFICATIONS
+}
+
+class "ローディング表示コンポーネント" {
+  + loadingType : LoadingType
+  + progressBar : ProgressBar
+  + loadingText : string
+  + cancelButton : Button
+  --
+  + onCancelTap() : void
+  + updateProgress(progress: number) : void
+}
+
+enum LoadingType {
+  INITIAL_LOAD
+  REFRESH
+  PAGINATION
+  UPLOAD
+  PROCESSING
+}
+
+@enduml
+
+@startuml アクセシビリティ設計
+!theme plain
+
+title アクセシビリティ・シニア向け設計
+
+class "アクセシビリティ設定" {
+  + fontSize : FontSize
+  + contrast : ContrastLevel
+  + voiceOverEnabled : boolean
+  + hapticFeedbackEnabled : boolean
+  + animationReducedEnabled : boolean
+  --
+  + setFontSize(size: FontSize) : void
+  + setContrast(level: ContrastLevel) : void
+  + enableVoiceOver(enabled: boolean) : void
+}
+
+enum FontSize {
+  SMALL_16PX
+  MEDIUM_18PX
+  LARGE_20PX
+  EXTRA_LARGE_24PX
+}
+
+enum ContrastLevel {
+  NORMAL
+  HIGH
+  EXTRA_HIGH
+}
+
+class "シニア向けUI要素" {
+  + minimumTouchTarget : Size(44px, 44px)
+  + minimumSpacing : 24px
+  + maximumHierarchy : 3
+  + primaryColors : Color[]
+  + accessibleFonts : Font[]
+  --
+  + validateTouchTarget(size: Size) : boolean
+  + validateContrast(ratio: number) : boolean
+  + getAccessibleColor(color: Color) : Color
+}
+
+class "操作支援機能" {
+  + confirmationDialogs : boolean
+  + undoActions : boolean
+  + contextualHelp : boolean
+  + voiceGuidance : boolean
+  --
+  + showConfirmation(action: string) : void
+  + enableUndo(action: string) : void
+  + showContextHelp(context: string) : void
+}
+
+@enduml
