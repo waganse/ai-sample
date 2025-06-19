@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { FloatingBubbles } from '@/components/ui/FloatingBubbles';
 
 export default function ServiceHero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -70,7 +73,9 @@ export default function ServiceHero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
     }, 3000);
 
     return () => clearInterval(interval);
@@ -80,6 +85,9 @@ export default function ServiceHero() {
     <section className="relative min-h-[80vh] bg-gradient-to-br from-primary-50 via-gray-50 to-primary-100 overflow-hidden md:pt-20">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
+        {/* Floating Bubbles Animation */}
+        <FloatingBubbles />
+
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 rounded-full opacity-20 animate-pulse"></div>
         <div className="absolute top-40 right-20 w-24 h-24 bg-gray-200 rounded-full opacity-30 animate-bounce"></div>
         <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-primary-300 rounded-full opacity-25 animate-pulse delay-1000"></div>
@@ -92,16 +100,18 @@ export default function ServiceHero() {
       <div className="container-max relative z-10 section-padding">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <div
+            className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+          >
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-primary-100 rounded-full text-primary-800 font-medium text-sm">
-トモリエのサービス詳細
+                トモリエのサービス詳細
               </div>
 
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
                 安心・簡単・
                 <br />
-<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-500">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-500">
                   心に灯りを
                 </span>
                 <br />
@@ -109,7 +119,7 @@ export default function ServiceHero() {
               </h1>
 
               <p className="text-lg text-gray-700 leading-relaxed">
-トモリエは、ご近所での気軽な出会いから始まる、大人のためのマッチングサービスです。
+                トモリエは、ご近所での気軽な出会いから始まる、大人のためのマッチングサービスです。
                 <br />
                 シンプルな操作性と充実したサポート体制で、
                 <br />
@@ -120,23 +130,23 @@ export default function ServiceHero() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="btn-primary text-lg px-8 py-4">今すぐ無料で始める</button>
-              <button
-                className="btn-secondary text-lg px-8 py-4"
-                onClick={() => {
-                  const pricingSection = document.getElementById('pricing');
-                  if (pricingSection) {
-                    pricingSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                料金プランを見る
-              </button>
+              <Link href="/auth/register">
+                <Button size="lg" className="w-full sm:w-auto text-lg px-8 py-4">
+                  今すぐ無料で始める
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8 py-4">
+                  料金プランを見る
+                </Button>
+              </Link>
             </div>
           </div>
 
           {/* Right Image */}
-          <div className={`relative ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}>
+          <div
+            className={`relative ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}
+          >
             <div className="relative bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
               <div className="bg-gradient-to-br from-primary-100 to-gray-100 rounded-2xl p-4 shadow-inner">
                 <div className="aspect-[4/5] rounded-xl relative overflow-hidden">
@@ -145,7 +155,9 @@ export default function ServiceHero() {
                     <div
                       key={index}
                       className={`absolute inset-0 transition-opacity duration-1000 ${
-                        index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                        index === currentImageIndex
+                          ? 'opacity-100'
+                          : 'opacity-0'
                       }`}
                     >
                       <Image
@@ -171,18 +183,6 @@ export default function ServiceHero() {
                         {images[currentImageIndex].subtitle}
                       </div>
                     </div>
-                  </div>
-
-                  {/* Image indicators */}
-                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                    {images.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
-                        }`}
-                      />
-                    ))}
                   </div>
                 </div>
               </div>

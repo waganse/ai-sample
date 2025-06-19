@@ -59,9 +59,10 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 認証が必要なページへのアクセス制御
-  const protectedPaths = ['/profile', '/matches', '/messages', '/communities'];
-  const authPaths = ['/auth/login', '/auth/register', '/auth/verify'];
+  // パスの定義
+  const protectedPaths = ['/dashboard', '/profile', '/matches', '/messages', '/communities'];
+  const authPaths = ['/auth/login', '/auth/register'];
+  const publicPaths = ['/', '/service', '/concept', '/pricing', '/terms', '/privacy', '/contact', '/help'];
   
   const isProtectedPath = protectedPaths.some(path => 
     request.nextUrl.pathname.startsWith(path)
@@ -69,6 +70,13 @@ export async function middleware(request: NextRequest) {
   const isAuthPath = authPaths.some(path =>
     request.nextUrl.pathname.startsWith(path)
   );
+  const isPublicPath = publicPaths.includes(request.nextUrl.pathname);
+  const isAuthCallbackPath = request.nextUrl.pathname === '/auth/callback';
+
+  // 認証コールバックページは常に許可
+  if (isAuthCallbackPath) {
+    return response;
+  }
 
   // 未認証ユーザーが保護されたページにアクセスしようとした場合
   if (isProtectedPath && !user) {
@@ -77,9 +85,38 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // 認証済みユーザーが認証ページにアクセスしようとした場合
-  if (isAuthPath && user) {
-    return NextResponse.redirect(new URL('/profile', request.url));
+  // 認証済みユーザーの場合
+  if (user) {
+    // プロフィール設定の確認
+    const hasProfile = user.user_metadata?.profile_completed;
+    const isSetupPath = request.nextUrl.pathname === '/profile/setup';
+
+    // プロフィール未設定でセットアップページ以外にアクセスした場合
+    if (!hasProfile && !isSetupPath && !isAuthCallbackPath) {
+      return NextResponse.redirect(new URL('/profile/setup', request.url));
+    }
+
+    // プロフィール設定済みでセットアップページにアクセスした場合
+    if (hasProfile && isSetupPath) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+
+    // 認証済みユーザーが認証ページにアクセスしようとした場合
+    if (isAuthPath) {
+      const destination = hasProfile ? '/dashboard' : '/profile/setup';
+      return NextResponse.redirect(new URL(destination, request.url));
+    }
+
+    // ルートアクセス時のリダイレクト
+    if (request.nextUrl.pathname === '/') {
+      const destination = hasProfile ? '/dashboard' : '/profile/setup';
+      return NextResponse.redirect(new URL(destination, request.url));
+    }
+  }
+
+  // APIルートやパブリックページは常に許可
+  if (request.nextUrl.pathname.startsWith('/api') || isPublicPath) {
+    return response;
   }
 
   return response;

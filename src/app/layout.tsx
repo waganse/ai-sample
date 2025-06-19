@@ -1,30 +1,45 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-noto-sans-jp',
 });
 
 export const metadata: Metadata = {
-  title: 'トモリエ（Tomorie） - 心に灯りをともす大人の出会い',
-  description:
-    'ご近所での気軽な出会いから始まる、大人のためのマッチングアプリ。成熟した大人の、新しいつながりを応援します。',
-  keywords: '大人, お隣さん, ご近所, マッチング, 出会い, 友達, パートナー, 成熟, トモリエ, Tomorie',
+  title: 'トモリエ（Tomorie） - 心に灯りをともす',
+  description: '人生経験豊富な大人世代のための新しい出会いとコミュニティの場所。60歳からの素敵な出会いとコミュニティをサポートします。',
+  keywords: ['シニア', '出会い', 'マッチング', 'コミュニティ', '60代', '70代', '大人世代'],
   openGraph: {
-    title: 'トモリエ（Tomorie） - 心に灯りをともす大人の出会い',
-    description: 'ご近所での気軽な出会いから始まる、大人のためのマッチングアプリ。',
+    title: 'トモリエ（Tomorie） - 心に灯りをともす',
+    description: '人生経験豊富な大人世代のための新しい出会いとコミュニティの場所',
     type: 'website',
+    locale: 'ja_JP',
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
-      <body className={`${notoSansJP.variable} ${notoSansJP.className}`}>{children}</body>
+    <html lang="ja" className={notoSansJP.variable}>
+      <body className="font-sans">
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
+      </body>
     </html>
   );
 }

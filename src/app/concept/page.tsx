@@ -1,15 +1,15 @@
-import Header from '@/components/Header';
+import { Header } from '@/components/common/Header';
 import ConceptHero from '@/components/concept/ConceptHero';
 import ConceptStory from '@/components/concept/ConceptStory';
 import ConceptValues from '@/components/concept/ConceptValues';
 import CTA from '@/components/CTA';
-import Footer from '@/components/Footer';
+import { Footer } from '@/components/common/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 
 export const metadata = {
-  title: '私たちの想い - Otonari',
-  description: '人生の先輩たちが輝く国は、きっともっと強くなる。大人のお隣さんとして、成熟した大人の新しいつながりを応援する、Otonariの想いをお伝えします。',
-  keywords: 'Otonari, 想い, コンセプト, 大人, お隣さん, ご近所, 第二の青春, 出会い',
+  title: '私たちの想い - Tomorie（トモリエ）',
+  description: 'あなたの経験こそ、日本の宝物です。戦後日本を築いてきた皆様へ心からの敬意を込めて。もう一度「社会の主役」となる第二の青春を、Tomorieで始めませんか。',
+  keywords: 'Tomorie, トモリエ, 想い, コンセプト, シニア, 60歳以上, 第二の青春, 社会貢献, 出会い, コミュニティ',
 };
 
 export default function ConceptPage() {

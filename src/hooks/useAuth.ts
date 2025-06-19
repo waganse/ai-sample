@@ -31,18 +31,94 @@ export function useAuth() {
   }, [supabase.auth]);
 
   const signInWithEmail = async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: true,
-      },
-    });
-    return { error };
+    try {
+      // APIエンドポイント経由でユーザー存在確認
+      const response = await fetch('/api/auth/check-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'ユーザー確認に失敗しました');
+      }
+
+      if (!result.exists) {
+        throw new Error('このメールアドレスは登録されていません。先にアカウントを作成してください。');
+      }
+
+      if (!result.confirmed) {
+        throw new Error('メールアドレスがまだ確認されていません。登録時のメールをご確認ください。');
+      }
+
+      // 既存ユーザーにのみOTPを送信
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false,
+        },
+      });
+
+      if (error) throw error;
+      
+      return { error: null };
+    } catch (error: any) {
+      return { error };
+    }
   };
 
-  const signInWithProvider = async (provider: 'google' | 'facebook') => {
+  const signUpWithEmail = async (email: string) => {
+    try {
+      // APIエンドポイント経由でユーザー存在確認
+      const response = await fetch('/api/auth/check-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'ユーザー確認に失敗しました');
+      }
+
+      if (result.exists) {
+        if (result.confirmed) {
+          throw new Error('このメールアドレスは既に登録済みです。ログインページからサインインしてください。');
+        } else {
+          throw new Error('このメールアドレスは既に登録されていますが、メール確認が完了していません。登録時のメールをご確認ください。');
+        }
+      }
+
+      // 新規ユーザーのOTP送信
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true, // 新規ユーザー作成を許可
+          data: {
+            user_type: 'senior',
+            registration_source: 'tomorie_app',
+          }
+        },
+      });
+
+      if (error) throw error;
+      
+      return { error: null };
+    } catch (error: any) {
+      return { error };
+    }
+  };
+
+  const signInWithProvider = async (provider: 'google' | 'facebook' | 'line') => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider,
+      provider: provider === 'line' ? 'line' : provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
@@ -68,6 +144,7 @@ export function useAuth() {
     user,
     loading,
     signInWithEmail,
+    signUpWithEmail,
     signInWithProvider,
     signOut,
     verifyOtp,

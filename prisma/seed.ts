@@ -280,7 +280,7 @@ async function main() {
   // Stripeプランの作成
   const stripePlans = [
     {
-      planType: 'MONTHLY',
+      planType: 'MONTHLY' as const,
       stripePriceId: 'price_monthly_tomorie_jp',
       stripeProductId: 'prod_tomorie_premium',
       amount: 980,
@@ -288,7 +288,7 @@ async function main() {
       intervalCount: 1,
     },
     {
-      planType: 'THREE_MONTH',
+      planType: 'THREE_MONTH' as const,
       stripePriceId: 'price_3month_tomorie_jp',
       stripeProductId: 'prod_tomorie_premium',
       amount: 2700,
@@ -296,7 +296,7 @@ async function main() {
       intervalCount: 3,
     },
     {
-      planType: 'SIX_MONTH',
+      planType: 'SIX_MONTH' as const,
       stripePriceId: 'price_6month_tomorie_jp',
       stripeProductId: 'prod_tomorie_premium',
       amount: 5100,
@@ -304,7 +304,7 @@ async function main() {
       intervalCount: 6,
     },
     {
-      planType: 'YEARLY',
+      planType: 'YEARLY' as const,
       stripePriceId: 'price_yearly_tomorie_jp',
       stripeProductId: 'prod_tomorie_premium',
       amount: 10000,

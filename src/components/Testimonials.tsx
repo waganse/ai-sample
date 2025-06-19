@@ -45,7 +45,7 @@ export default function Testimonials() {
                   </p>
                 </div>
               </div>
-              <p className="text-gray-700 leading-relaxed italic">"{testimonial.text}"</p>
+              <p className="text-gray-700 leading-relaxed italic">&quot;{testimonial.text}&quot;</p>
               <div className="flex mt-6">
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="text-primary-500 text-xl">
