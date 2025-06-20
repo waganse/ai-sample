@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { Footer } from '@/components/common/Footer';
+import { Header } from '@/components/common/Header';
+import CTA from '@/components/CTA';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Icons } from '@/components/ui/Icons';
 import { FloatingBubbles } from '@/components/ui/FloatingBubbles';
-import { Header } from '@/components/common/Header';
-import { Footer } from '@/components/common/Footer';
-import CTA from '@/components/CTA';
+import { Icons } from '@/components/ui/Icons';
+import Link from 'next/link';
 
 export default function PricingPage() {
   const plans = [
@@ -122,7 +121,7 @@ export default function PricingPage() {
                   </h3>
                   <p className="text-gray-600 mb-4">{plan.description}</p>
 
-                  <div className="mb-6">
+                  <div>
                     <div className="flex items-baseline justify-center">
                       <span className="text-4xl font-bold text-gray-900">
                         ¥{plan.price.toLocaleString()}
@@ -147,22 +146,22 @@ export default function PricingPage() {
                       月額換算: ¥{plan.monthlyPrice}
                     </p>
                   </div>
-
-                  <Link href="/auth/register">
-                    <Button
-                      className={`w-full ${
-                        plan.popular
-                          ? 'bg-primary-600 hover:bg-primary-700'
-                          : ''
-                      }`}
-                      variant={plan.popular ? 'default' : 'outline'}
-                    >
-                      このプランで始める
-                    </Button>
-                  </Link>
                 </div>
               </Card>
             ))}
+          </div>
+
+          {/* 登録ボタン */}
+          <div className="text-center mt-12">
+            <Link href="/auth/register">
+              <Button size="lg" className="text-xl px-12 py-4">
+                無料登録で始める
+                <Icons.chevronRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <p className="text-gray-600 mt-4 text-lg">
+              登録後、お好みのプランをお選びいただけます
+            </p>
           </div>
         </div>
       </section>

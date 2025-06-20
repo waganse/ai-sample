@@ -38,7 +38,7 @@ export interface PasswordResetEmailProps extends EmailTemplateProps {
   expiryTime: string;
 }
 
-export type EmailType = 
+export type EmailType =
   | 'welcome'
   | 'match-notification'
   | 'message-notification'

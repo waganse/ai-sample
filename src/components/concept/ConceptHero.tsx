@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { FloatingBubbles } from '@/components/ui/FloatingBubbles';
 
 export default function ConceptHero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -12,8 +13,11 @@ export default function ConceptHero() {
   }, []);
 
   return (
-    <section className="relative bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24">
+    <section className="relative bg-gradient-to-br from-primary-50 via-white to-orange-50 overflow-hidden">
+      {/* 浮遊するバブル装飾 */}
+      <FloatingBubbles />
+      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 relative z-10">
         <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 leading-tight mb-8">
             <span className="block font-thin">あなたの物語が</span>

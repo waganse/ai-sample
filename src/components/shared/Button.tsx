@@ -55,10 +55,14 @@ export default function Button({
     }
   };
 
-  const baseClass = 'font-bold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50';
+  const baseClass =
+    'font-bold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50';
   const widthClass = fullWidth ? 'w-full' : '';
-  const disabledClass = disabled || loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 hover:shadow-lg';
-  
+  const disabledClass =
+    disabled || loading
+      ? 'opacity-50 cursor-not-allowed'
+      : 'hover:scale-105 hover:shadow-lg';
+
   const buttonClass = `${baseClass} ${getVariantClass()} ${getSizeClass()} ${widthClass} ${disabledClass} ${className}`;
 
   return (

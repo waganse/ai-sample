@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,8 +35,12 @@ export default function Header() {
       <div className="container-max">
         <div className="flex items-center justify-between px-3 py-3 md:py-6">
           <Link href="/" className="flex items-center">
-            <h1 className="text-2xl md:text-3xl font-bold text-primary-600">トモリエ</h1>
-            <span className="ml-3 text-sm text-gray-600 hidden sm:block">Tomorie</span>
+            <h1 className="text-2xl md:text-3xl font-bold text-primary-600">
+              トモリエ
+            </h1>
+            <span className="ml-3 text-sm text-gray-600 hidden sm:block">
+              Tomorie
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
@@ -102,13 +106,17 @@ export default function Header() {
             {/* Animated Menu Panel */}
             <div
               className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl z-40 transform transition-all duration-700 ease-out ${
-                isAnimating ? 'translate-x-0 scale-100' : 'translate-x-full scale-95'
+                isAnimating
+                  ? 'translate-x-0 scale-100'
+                  : 'translate-x-full scale-95'
               }`}
             >
               {/* Menu Header with enhanced design */}
               <div
                 className={`relative bg-gradient-to-br from-primary-600 via-primary-500 to-pink-500 text-white p-6 overflow-hidden transition-all duration-700 ${
-                  isAnimating ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-90'
+                  isAnimating
+                    ? 'translate-y-0 opacity-100'
+                    : '-translate-y-4 opacity-90'
                 }`}
               >
                 {/* Animated background elements */}
@@ -126,7 +134,9 @@ export default function Header() {
                 <div className="relative z-10">
                   <h2
                     className={`text-2xl font-bold mb-2 transition-all duration-700 ${
-                      isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                      isAnimating
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 translate-y-4'
                     }`}
                     style={{ transitionDelay: isAnimating ? '200ms' : '0ms' }}
                   >
@@ -134,7 +144,9 @@ export default function Header() {
                   </h2>
                   <p
                     className={`text-primary-100 text-sm transition-all duration-700 ${
-                      isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                      isAnimating
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 translate-y-4'
                     }`}
                     style={{ transitionDelay: isAnimating ? '300ms' : '0ms' }}
                   >
@@ -148,7 +160,12 @@ export default function Header() {
                   className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110"
                   aria-label="メニューを閉じる"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -167,7 +184,11 @@ export default function Header() {
                       href: '/concept',
                       label: '私たちの想い',
                       icon: (
-                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          className="w-6 h-6"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                         </svg>
                       ),
@@ -216,11 +237,19 @@ export default function Header() {
                       href={item.href}
                       onClick={toggleMenu}
                       className={`group flex items-center space-x-4 p-4 rounded-xl text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-all duration-500 transform hover:scale-105 hover:shadow-lg ${
-                        isAnimating ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+                        isAnimating
+                          ? 'opacity-100 translate-x-0'
+                          : 'opacity-0 translate-x-8'
                       }`}
-                      style={{ transitionDelay: isAnimating ? `${index * 100 + 400}ms` : '0ms' }}
+                      style={{
+                        transitionDelay: isAnimating
+                          ? `${index * 100 + 400}ms`
+                          : '0ms',
+                      }}
                     >
-                      <span className="group-hover:animate-bounce">{item.icon}</span>
+                      <span className="group-hover:animate-bounce">
+                        {item.icon}
+                      </span>
                       <span className="text-lg font-medium">{item.label}</span>
                       <svg
                         className="w-5 h-5 ml-auto transform group-hover:translate-x-2 transition-transform duration-300"
@@ -246,7 +275,9 @@ export default function Header() {
                       href="#contact"
                       onClick={toggleMenu}
                       className={`group relative overflow-hidden block w-full btn-primary text-center py-4 text-lg font-semibold hover:scale-105 transition-all duration-500 ${
-                        isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                        isAnimating
+                          ? 'opacity-100 translate-y-0'
+                          : 'opacity-0 translate-y-4'
                       }`}
                       style={{ transitionDelay: isAnimating ? '900ms' : '0ms' }}
                     >
@@ -257,9 +288,13 @@ export default function Header() {
                     <button
                       onClick={toggleMenu}
                       className={`group w-full btn-secondary text-center py-4 text-lg font-semibold hover:scale-105 transition-all duration-500 ${
-                        isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                        isAnimating
+                          ? 'opacity-100 translate-y-0'
+                          : 'opacity-0 translate-y-4'
                       }`}
-                      style={{ transitionDelay: isAnimating ? '1000ms' : '0ms' }}
+                      style={{
+                        transitionDelay: isAnimating ? '1000ms' : '0ms',
+                      }}
                     >
                       無料で始める
                       <svg

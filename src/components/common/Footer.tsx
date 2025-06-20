@@ -19,32 +19,45 @@ export function Footer() {
               </div>
             </div>
             <p className="text-gray-600 text-lg leading-relaxed max-w-md">
-              人生経験豊富な大人世代のための、
-              新しい出会いとコミュニティの場所
+              人生経験豊富な大人世代のための、 新しい出会いとコミュニティの場所
             </p>
           </div>
 
           {/* サービス */}
           <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-4">サービス</h4>
+            <h4 className="text-lg font-semibold text-gray-900 mb-4">
+              サービス
+            </h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/concept" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/concept"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   私たちの想い
                 </Link>
               </li>
               <li>
-                <Link href="/service" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/service"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   サービスについて
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/pricing"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   料金プラン
                 </Link>
               </li>
               <li>
-                <Link href="/safety" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/safety"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   安全への取り組み
                 </Link>
               </li>
@@ -53,25 +66,39 @@ export function Footer() {
 
           {/* サポート */}
           <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-4">サポート</h4>
+            <h4 className="text-lg font-semibold text-gray-900 mb-4">
+              サポート
+            </h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/help" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/help"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   ヘルプセンター
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/contact"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   お問い合わせ
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/terms"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   利用規約
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-600 hover:text-primary-600 transition-colors text-lg">
+                <Link
+                  href="/privacy"
+                  className="text-gray-600 hover:text-primary-600 transition-colors text-lg"
+                >
                   プライバシーポリシー
                 </Link>
               </li>
@@ -85,10 +112,16 @@ export function Footer() {
               © 2024 トモリエ. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              <Link href="/privacy" className="text-gray-500 hover:text-primary-600 transition-colors text-lg">
+              <Link
+                href="/privacy"
+                className="text-gray-500 hover:text-primary-600 transition-colors text-lg"
+              >
                 プライバシー
               </Link>
-              <Link href="/terms" className="text-gray-500 hover:text-primary-600 transition-colors text-lg">
+              <Link
+                href="/terms"
+                className="text-gray-500 hover:text-primary-600 transition-colors text-lg"
+              >
                 利用規約
               </Link>
             </div>

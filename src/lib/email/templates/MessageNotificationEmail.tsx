@@ -9,23 +9,22 @@ import {
   Section,
   Text,
 } from '@react-email/components';
-import { MessageNotificationEmailProps } from '../types';
-import { 
-  emailColors, 
-  emailFonts, 
-  emailSizes, 
-  baseStyles, 
-  contentStyles, 
-  buttonStyles, 
-  iconStyles,
-  footerStyles 
+import {
+  baseStyles,
+  buttonStyles,
+  contentStyles,
+  emailColors,
+  emailFonts,
+  emailSizes,
+  footerStyles,
 } from '../styles/modern-email-styles';
+import { MessageNotificationEmailProps } from '../types';
 
-export const MessageNotificationEmail = ({ 
-  userName, 
-  senderName, 
+export const MessageNotificationEmail = ({
+  userName,
+  senderName,
   messagePreview,
-  chatUrl 
+  chatUrl,
 }: MessageNotificationEmailProps) => {
   return (
     <Html>
@@ -48,8 +47,11 @@ export const MessageNotificationEmail = ({
           .animate-notification { animation: notification 2s ease-in-out infinite; }
         `}</style>
       </Head>
-      <Preview>💌 {senderName}さんからメッセージが届きました: 「{messagePreview}」素敵な会話を続けましょう！</Preview>
-      
+      <Preview>
+        💌 {senderName}さんからメッセージが届きました: 「{messagePreview}
+        」素敵な会話を続けましょう！
+      </Preview>
+
       <Body style={main}>
         <Container style={container}>
           {/* ヘッダーセクション */}
@@ -63,7 +65,7 @@ export const MessageNotificationEmail = ({
             <Heading style={headerTitle}>新しいメッセージ</Heading>
             <Text style={headerSubtitle}>温かい言葉が届きました</Text>
           </Section>
-          
+
           {/* メインコンテンツ */}
           <Section style={contentSection}>
             <div style={messageIconContainer}>
@@ -71,76 +73,80 @@ export const MessageNotificationEmail = ({
                 <Text style={messageIconText}>💬</Text>
               </div>
             </div>
-            
-            <Text style={greeting}>
-              {userName}様
-            </Text>
-            
-            <Text style={paragraph}>
-              嬉しいお知らせです！
-            </Text>
-            
+
+            <Text style={greeting}>{userName}様</Text>
+
+            <Text style={paragraph}>嬉しいお知らせです！</Text>
+
             <div style={senderHighlight}>
               <Text style={senderText}>
-                <strong style={senderNameStyle}>{senderName}さん</strong><br />
+                <strong style={senderNameStyle}>{senderName}さん</strong>
+                <br />
                 からメッセージが届きました
               </Text>
             </div>
-            
+
             {/* メッセージプレビュー */}
             <div style={messagePreviewBox}>
               <Text style={messageLabel}>📝 メッセージ内容</Text>
               <div style={messageQuote}>
-                <Text style={messageContent}>
-                  「{messagePreview}」
-                </Text>
+                <Text style={messageContent}>「{messagePreview}」</Text>
               </div>
             </div>
-            
+
             <Text style={paragraph}>
-              素敵な会話の続きを楽しみませんか？<br />
+              素敵な会話の続きを楽しみませんか？
+              <br />
               温かい言葉での交流が、きっと心を豊かにしてくれるでしょう。
             </Text>
-            
+
             <Section style={buttonContainer}>
               <Link href={chatUrl} style={primaryButton}>
                 💬 返信する
               </Link>
             </Section>
-            
+
             {/* 会話のティップス */}
             <div style={tipsContainer}>
-              <Text style={tipsTitle}>
-                🌟 心温まる会話のコツ
-              </Text>
+              <Text style={tipsTitle}>🌟 心温まる会話のコツ</Text>
               <Text style={tipsContent}>
-                • 相手の話に共感の気持ちを示しましょう<br />
-                • 自分の経験や思い出を交えて話してみましょう<br />
-                • 質問を通して相手への関心を表現しましょう<br />
-                • 地域の話題で親近感を深めましょう<br />
-                • 丁寧で温かい言葉を心がけましょう
+                • 相手の話に共感の気持ちを示しましょう
+                <br />
+                • 自分の経験や思い出を交えて話してみましょう
+                <br />
+                • 質問を通して相手への関心を表現しましょう
+                <br />
+                • 地域の話題で親近感を深めましょう
+                <br />• 丁寧で温かい言葉を心がけましょう
               </Text>
             </div>
-            
+
             <div style={encouragementBox}>
               <Text style={encouragementText}>
-                💫 一期一会の出会いを大切に。<br />
+                💫 一期一会の出会いを大切に。
+                <br />
                 あなたの言葉が、相手の心に温かい灯りを灯します。
               </Text>
             </div>
           </Section>
-          
+
           {/* フッター */}
           <Section style={footer}>
             <Text style={signature}>
-              素敵な会話を心より応援しています<br />
+              素敵な会話を心より応援しています
+              <br />
               <strong>トモリエチーム一同</strong>
             </Text>
             <Text style={contact}>
               📧 support@tomorie.jp | 🌐 https://tomorie.jp
             </Text>
             <Text style={unsubscribe}>
-              メッセージ通知の設定は <Link href="#" style={linkStyle}>こちら</Link> から変更できます。<br />
+              メッセージ通知の設定は{' '}
+              <Link href="#" style={linkStyle}>
+                こちら
+              </Link>{' '}
+              から変更できます。
+              <br />
               このメールに心当たりがない場合は、お手数ですがご連絡ください。
             </Text>
           </Section>

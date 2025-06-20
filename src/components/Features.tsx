@@ -1,5 +1,5 @@
-import SectionHeader from './shared/SectionHeader';
 import FeatureGrid from './shared/FeatureGrid';
+import SectionHeader from './shared/SectionHeader';
 
 export default function Features() {
   const features = [
@@ -12,12 +12,14 @@ export default function Features() {
     {
       icon: '❤️',
       title: '心ときめくパートナーとの出会い',
-      description: '焦らず、自分のペースでゆっくりと関係を育める、大人のための恋愛を応援します。',
+      description:
+        '焦らず、自分のペースでゆっくりと関係を育める、大人のための恋愛を応援します。',
     },
     {
       icon: '🌸',
       title: '毎日が楽しくなる生きがいとの出会い',
-      description: '新しい趣味の発見や、イベントへの参加を通じて、日常に新しい彩りを加えます。',
+      description:
+        '新しい趣味の発見や、イベントへの参加を通じて、日常に新しい彩りを加えます。',
     },
   ];
 
@@ -80,7 +82,11 @@ export default function Features() {
             descriptionClassName="text-xl text-gray-600 max-w-3xl mx-auto"
           />
 
-          <FeatureGrid features={differentiators} variant="card" layout="grid-2" />
+          <FeatureGrid
+            features={differentiators}
+            variant="card"
+            layout="grid-2"
+          />
         </div>
       </section>
     </>

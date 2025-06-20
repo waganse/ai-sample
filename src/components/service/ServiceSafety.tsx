@@ -24,19 +24,31 @@ export default function ServiceSafety() {
       icon: '👮',
       title: '24時間監視',
       description: 'AIと人による24時間体制での監視システム',
-      details: ['不適切な投稿の自動検出', '専門スタッフによる巡回', '怪しい行動パターンの分析'],
+      details: [
+        '不適切な投稿の自動検出',
+        '専門スタッフによる巡回',
+        '怪しい行動パターンの分析',
+      ],
     },
     {
       icon: '🚫',
       title: '報告・ブロック機能',
       description: '迷惑な相手は簡単に報告・ブロックできます',
-      details: ['ワンタップで報告・ブロック', '迅速な対応と調査', '悪質ユーザーの永久追放'],
+      details: [
+        'ワンタップで報告・ブロック',
+        '迅速な対応と調査',
+        '悪質ユーザーの永久追放',
+      ],
     },
     {
       icon: '🔒',
       title: 'プライバシー保護',
       description: '個人情報の厳重な管理とプライバシー保護',
-      details: ['SSL暗号化通信', '個人情報の厳重管理', '第三者への情報提供なし'],
+      details: [
+        'SSL暗号化通信',
+        '個人情報の厳重管理',
+        '第三者への情報提供なし',
+      ],
     },
   ];
 
@@ -91,13 +103,18 @@ export default function ServiceSafety() {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="text-4xl mb-4 text-center">{feature.icon}</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">{feature.title}</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">
+                {feature.title}
+              </h3>
               <p className="text-gray-600 text-sm mb-4 text-center leading-relaxed">
                 {feature.description}
               </p>
               <ul className="space-y-2">
                 {feature.details.map((detail, detailIndex) => (
-                  <li key={detailIndex} className="flex items-start text-xs text-gray-500">
+                  <li
+                    key={detailIndex}
+                    className="flex items-start text-xs text-gray-500"
+                  >
                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2 mt-1.5 flex-shrink-0"></span>
                     {detail}
                   </li>
@@ -147,7 +164,9 @@ export default function ServiceSafety() {
                 <div className="flex items-start space-x-4">
                   <div className="text-3xl flex-shrink-0">{tip.icon}</div>
                   <div>
-                    <h4 className="text-lg font-bold text-gray-900 mb-2">{tip.title}</h4>
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">
+                      {tip.title}
+                    </h4>
                     <p className="text-gray-600 leading-relaxed">{tip.tip}</p>
                   </div>
                 </div>

@@ -29,8 +29,8 @@ export async function sendSupabaseEmail(params: SupabaseEmailParams) {
           email_subject: params.subject,
           email_html: params.html,
           email_text: params.text,
-        }
-      }
+        },
+      },
     });
 
     if (error) {
@@ -53,7 +53,7 @@ export async function sendEmailViaEdgeFunction(params: SupabaseEmailParams) {
         subject: params.subject,
         html: params.html,
         text: params.text,
-      }
+      },
     });
 
     if (error) {
@@ -78,8 +78,8 @@ export async function sendWelcomeEmailWithOTP(email: string, userName: string) {
         data: {
           user_name: userName,
           email_type: 'welcome',
-        }
-      }
+        },
+      },
     });
 
     if (error) {

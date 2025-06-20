@@ -175,7 +175,9 @@ export default function FAQSection({
       <section id={sectionId} className={className}>
         <div className="container-max">
           <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">よくあるご質問</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+              よくあるご質問
+            </h2>
             <p className="text-xl text-gray-600">
               皆様からよくお寄せいただくご質問にお答えします。
             </p>
@@ -183,8 +185,13 @@ export default function FAQSection({
 
           <div className="max-w-4xl mx-auto space-y-6">
             {compactFaqs.map((faq, index) => (
-              <div key={index} className={`${backgroundClassName} rounded-xl p-5 md:p-8 shadow-sm`}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Q. {faq.question}</h3>
+              <div
+                key={index}
+                className={`${backgroundClassName} rounded-xl p-5 md:p-8 shadow-sm`}
+              >
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Q. {faq.question}
+                </h3>
                 <p className="text-gray-700 leading-relaxed">A. {faq.answer}</p>
               </div>
             ))}
@@ -222,10 +229,16 @@ export default function FAQSection({
             <div
               key={categoryIndex}
               className={`mb-12 ${showAnimations && isVisible ? 'animate-fade-in-up' : ''}`}
-              style={showAnimations ? { animationDelay: `${categoryIndex * 200}ms` } : {}}
+              style={
+                showAnimations
+                  ? { animationDelay: `${categoryIndex * 200}ms` }
+                  : {}
+              }
             >
               <div className="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl p-6 mb-6">
-                <h3 className="text-xl font-bold text-white text-center">{category.category}</h3>
+                <h3 className="text-xl font-bold text-white text-center">
+                  {category.category}
+                </h3>
               </div>
 
               <div className="space-y-4">
@@ -242,7 +255,9 @@ export default function FAQSection({
                         onClick={() => toggleItem(globalIndex)}
                         className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-100 transition-colors"
                       >
-                        <h4 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h4>
+                        <h4 className="text-lg font-semibold text-gray-900 pr-4">
+                          {faq.question}
+                        </h4>
                         <div
                           className={`transform transition-transform duration-300 ${
                             isOpen ? 'rotate-180' : ''
@@ -269,7 +284,9 @@ export default function FAQSection({
                           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                         } overflow-hidden`}
                       >
-                        <div className="px-6 pb-5 text-gray-600 leading-relaxed">{faq.answer}</div>
+                        <div className="px-6 pb-5 text-gray-600 leading-relaxed">
+                          {faq.answer}
+                        </div>
                       </div>
                     </div>
                   );
@@ -282,7 +299,9 @@ export default function FAQSection({
         {/* Contact Support */}
         <div className="mt-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-8 text-center text-white">
           <div className="text-4xl mb-4">💬</div>
-          <h3 className="text-2xl font-bold mb-4">他にご質問がございますか？</h3>
+          <h3 className="text-2xl font-bold mb-4">
+            他にご質問がございますか？
+          </h3>
           <p className="text-lg mb-6 opacity-90">
             専門スタッフが24時間体制でサポートいたします。
             <br />

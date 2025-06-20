@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
 export default function ConceptValues() {
   const [visibleItems, setVisibleItems] = useState<number[]>([]);
@@ -10,27 +10,29 @@ export default function ConceptValues() {
 
   const values = [
     {
-      title: "あなたが輝く姿が、家族の希望になる",
-      subtitle: "お子さんやお孫さんにとって、最高のお手本",
-      description: "あなたが「Tomorie」で楽しそうにしている姿を見たお子さんやお孫さんは、きっとこう思うでしょう。「おじいちゃん、おばあちゃん、すごく楽しそう！年を重ねるのも素敵だな」と。人生の先輩方が笑顔でいる社会は、若い世代にとって希望そのものです。",
-      icon: "👨‍👩‍👧‍👦"
+      title: 'あなたが輝く姿が、家族の希望になる',
+      subtitle: 'お子さんやお孫さんにとって、最高のお手本',
+      description:
+        'あなたが「Tomorie」で楽しそうにしている姿を見たお子さんやお孫さんは、きっとこう思うでしょう。「おじいちゃん、おばあちゃん、すごく楽しそう！年を重ねるのも素敵だな」と。人生の先輩方が笑顔でいる社会は、若い世代にとって希望そのものです。',
+      icon: '👨‍👩‍👧‍👦',
     },
     {
-      title: "あなたの輝きが、日本全体を照らす光",
-      subtitle: "一人ひとりの笑顔が、社会を明るくする力になる",
-      description: "あなたの輝きは、ご家族を安心させ、ひいては日本全体を明るく照らす、かけがえのない「灯り」なのです。皆様が生き生きと過ごす日常こそが、最高の社会貢献。それが私たちの確信です。",
-      icon: "🌟"
-    }
+      title: 'あなたの輝きが、日本全体を照らす光',
+      subtitle: '一人ひとりの笑顔が、社会を明るくする力になる',
+      description:
+        'あなたの輝きは、ご家族を安心させ、ひいては日本全体を明るく照らす、かけがえのない「灯り」なのです。皆様が生き生きと過ごす日常こそが、最高の社会貢献。それが私たちの確信です。',
+      icon: '🌟',
+    },
   ];
 
   useEffect(() => {
     const observers = itemRefs.current.map((ref, index) => {
       if (!ref) return null;
-      
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            setVisibleItems(prev => {
+            setVisibleItems((prev) => {
               if (!prev.includes(index)) {
                 return [...prev, index];
               }
@@ -40,13 +42,13 @@ export default function ConceptValues() {
         },
         { threshold: 0.3 }
       );
-      
+
       observer.observe(ref);
       return observer;
     });
 
     return () => {
-      observers.forEach(observer => observer?.disconnect());
+      observers.forEach((observer) => observer?.disconnect());
     };
   }, []);
 
@@ -67,7 +69,9 @@ export default function ConceptValues() {
           {values.map((value, index) => (
             <div
               key={index}
-              ref={el => { itemRefs.current[index] = el; }}
+              ref={(el) => {
+                itemRefs.current[index] = el;
+              }}
               className={`transition-all duration-700 delay-${index * 200} ${
                 visibleItems.includes(index)
                   ? 'opacity-100 translate-y-0'
@@ -111,7 +115,11 @@ export default function ConceptValues() {
               </Button>
             </Link>
             <Link href="/auth/register">
-              <Button variant="outline" size="lg" className="px-12 py-4 text-lg">
+              <Button
+                variant="outline"
+                size="lg"
+                className="px-12 py-4 text-lg"
+              >
                 無料登録する
               </Button>
             </Link>

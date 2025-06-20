@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
-import { Gender, LookingFor } from '@prisma/client';
+import { createClient } from '@/lib/supabase/server';
 import { profileCreateApiSchema } from '@/lib/validations/profile';
+import { Gender, LookingFor } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 export async function POST(request: NextRequest) {
@@ -20,14 +20,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    
+
     // Zodバリデーション
     let validatedData;
     try {
       validatedData = profileCreateApiSchema.parse(body);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const errorMessages = error.errors.map(err => err.message).join(', ');
+        const errorMessages = error.errors.map((err) => err.message).join(', ');
         return NextResponse.json(
           { error: `バリデーションエラー: ${errorMessages}` },
           { status: 400 }

@@ -4,7 +4,9 @@ export default function Footer() {
       <div className="container-max">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-primary-400 mb-4">トモリエ</h3>
+            <h3 className="text-2xl font-bold text-primary-400 mb-4">
+              トモリエ
+            </h3>
             <p className="text-gray-300 leading-relaxed mb-6">
               60歳以上の方のための、安心でシンプルなマッチングアプリ。
               <br />
@@ -12,13 +14,16 @@ export default function Footer() {
             </p>
             <div className="space-y-2">
               <p className="text-gray-300">
-                <span className="font-semibold">カスタマーサポート:</span> support@tomorie.jp
+                <span className="font-semibold">カスタマーサポート:</span>{' '}
+                support@tomorie.jp
               </p>
               <p className="text-gray-300">
-                <span className="font-semibold">受付時間:</span> 24時間受付（返信は営業日内）
+                <span className="font-semibold">受付時間:</span>{' '}
+                24時間受付（返信は営業日内）
               </p>
               <p className="text-gray-300">
-                <span className="font-semibold">メール:</span> support@en-biyori.jp
+                <span className="font-semibold">メール:</span>{' '}
+                support@en-biyori.jp
               </p>
             </div>
           </div>
@@ -27,22 +32,34 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">サービス</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <a href="#features" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#features"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   特徴
                 </a>
               </li>
               <li>
-                <a href="#pricing" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#pricing"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   料金プラン
                 </a>
               </li>
               <li>
-                <a href="#support" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#support"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   サポート
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   使い方ガイド
                 </a>
               </li>
@@ -53,22 +70,34 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">会社情報</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <a href="#" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   会社概要
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   プライバシーポリシー
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   利用規約
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-400 transition-colors">
+                <a
+                  href="#"
+                  className="hover:text-primary-400 transition-colors"
+                >
                   特定商取引法に基づく表記
                 </a>
               </li>

@@ -1,16 +1,18 @@
-import { Resend } from 'resend';
 import { render } from '@react-email/render';
-import { WelcomeEmail } from './templates/WelcomeEmail';
+import { Resend } from 'resend';
 import { MatchNotificationEmail } from './templates/MatchNotificationEmail';
 import { MessageNotificationEmail } from './templates/MessageNotificationEmail';
+import { WelcomeEmail } from './templates/WelcomeEmail';
 import {
   EmailType,
-  WelcomeEmailProps,
   MatchNotificationEmailProps,
   MessageNotificationEmailProps,
+  WelcomeEmailProps,
 } from './types';
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 const FROM_EMAIL = 'トモリエ <onboarding@resend.dev>';
 const REPLY_TO_EMAIL = 'support@resend.dev';
@@ -24,7 +26,9 @@ export interface SendEmailParams {
 export async function sendEmail({ to, type, props }: SendEmailParams) {
   try {
     if (!resend) {
-      throw new Error('Email service not configured. RESEND_API_KEY is missing.');
+      throw new Error(
+        'Email service not configured. RESEND_API_KEY is missing.'
+      );
     }
 
     let subject: string;

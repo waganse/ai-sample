@@ -1,15 +1,15 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
+import { Footer } from '@/components/common/Footer';
+import { Header } from '@/components/common/Header';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { FloatingBubbles } from '@/components/ui/FloatingBubbles';
 import { Icons } from '@/components/ui/Icons';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
-import { FloatingBubbles } from '@/components/ui/FloatingBubbles';
-import { Header } from '@/components/common/Header';
-import { Footer } from '@/components/common/Footer';
 import { useAuth } from '@/hooks/useAuth';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -21,24 +21,24 @@ export default function HomePage() {
   const heroImages = [
     {
       src: '/images/main.png',
-      alt: '素敵な笑顔のご夫婦'
+      alt: '素敵な笑顔のご夫婦',
     },
     {
       src: '/images/main9.png',
-      alt: '手を繋いで歩く温かいご夫婦'
+      alt: '手を繋いで歩く温かいご夫婦',
     },
     {
       src: '/images/main7.png',
-      alt: 'お茶を楽しむ和やかなグループ'
+      alt: 'お茶を楽しむ和やかなグループ',
     },
     {
       src: '/images/main8.png',
-      alt: 'カラオケを楽しむ明るいグループ'
+      alt: 'カラオケを楽しむ明るいグループ',
     },
     {
       src: '/images/main6.png',
-      alt: '農業を楽しむご夫婦'
-    }
+      alt: '農業を楽しむご夫婦',
+    },
   ];
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function HomePage() {
                 <br />
                 新しい出会いとコミュニティ
               </h1>
-              
+
               <p className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed">
                 60歳からの新しいスタート。同じ価値観を持つ仲間との出会いで、
                 毎日をもっと豊かに、もっと楽しく。
@@ -91,14 +91,21 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
                 <Link href="/concept">
-                  <Button size="lg" className="w-full sm:w-auto text-xl px-8 py-4">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto text-xl px-8 py-4"
+                  >
                     私たちの想いを知る
                     <Icons.chevronRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
-                
+
                 <Link href="/service">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto text-xl px-8 py-4">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto text-xl px-8 py-4"
+                  >
                     サービス詳細
                   </Button>
                 </Link>
@@ -106,7 +113,10 @@ export default function HomePage() {
 
               <p className="text-lg text-gray-500">
                 すでにアカウントをお持ちの方は{' '}
-                <Link href="/auth/login" className="text-primary-600 hover:text-primary-500 font-medium underline">
+                <Link
+                  href="/auth/login"
+                  className="text-primary-600 hover:text-primary-500 font-medium underline"
+                >
                   こちらからログイン
                 </Link>
               </p>
@@ -115,13 +125,13 @@ export default function HomePage() {
             {/* 右側: メイン画像カルーセル */}
             <div className="relative">
               <div className="relative z-10 h-[600px]">
-                <ImageCarousel 
+                <ImageCarousel
                   images={heroImages}
                   interval={5000}
                   className="h-full"
                 />
               </div>
-              
+
               {/* 装飾的な背景要素 */}
               <div className="absolute -top-6 -right-6 w-full h-full bg-gradient-to-br from-primary-200 to-orange-200 rounded-2xl -z-10"></div>
               <div className="absolute top-8 left-8 w-20 h-20 bg-primary-300 rounded-full opacity-60 animate-float"></div>
@@ -147,7 +157,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="h-48 overflow-hidden">
-                <Image 
+                <Image
                   src="/images/main2.png"
                   alt="仲の良いグループの笑顔"
                   width={400}
@@ -171,7 +181,7 @@ export default function HomePage() {
 
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="h-48 overflow-hidden">
-                <Image 
+                <Image
                   src="/images/main3.png"
                   alt="趣味を楽しむグループ"
                   width={400}
@@ -195,7 +205,7 @@ export default function HomePage() {
 
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="h-48 overflow-hidden">
-                <Image 
+                <Image
                   src="/images/main5.png"
                   alt="合唱を楽しむグループ"
                   width={400}
@@ -236,7 +246,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {/* 左側: ハイキンググループ */}
             <div className="relative">
-              <Image 
+              <Image
                 src="/images/main4.png"
                 alt="楽しくハイキングを楽しむグループ"
                 width={600}
@@ -255,7 +265,7 @@ export default function HomePage() {
 
             {/* 右側: 農業体験 */}
             <div className="relative">
-              <Image 
+              <Image
                 src="/images/main6.png"
                 alt="農業を楽しむご夫婦"
                 width={600}
@@ -277,15 +287,21 @@ export default function HomePage() {
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-primary-600 mb-2">1,200+</div>
+                <div className="text-4xl font-bold text-primary-600 mb-2">
+                  1,200+
+                </div>
                 <p className="text-lg text-gray-600">アクティブユーザー</p>
               </div>
               <div>
-                <div className="text-4xl font-bold text-primary-600 mb-2">50+</div>
+                <div className="text-4xl font-bold text-primary-600 mb-2">
+                  50+
+                </div>
                 <p className="text-lg text-gray-600">活発なコミュニティ</p>
               </div>
               <div>
-                <div className="text-4xl font-bold text-primary-600 mb-2">98%</div>
+                <div className="text-4xl font-bold text-primary-600 mb-2">
+                  98%
+                </div>
                 <p className="text-lg text-gray-600">ユーザー満足度</p>
               </div>
             </div>
@@ -302,11 +318,11 @@ export default function HomePage() {
           <p className="text-xl text-primary-100 mb-8 leading-relaxed">
             無料登録で、素敵な出会いとコミュニティへの第一歩を踏み出しましょう
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/auth/register">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 variant="outline"
                 className="w-full sm:w-auto text-xl px-8 py-4 bg-white text-primary-600 border-white hover:bg-gray-50"
               >
@@ -314,9 +330,9 @@ export default function HomePage() {
                 <Icons.chevronRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-            
+
             <Link href="/concept">
-              <Button 
+              <Button
                 size="lg"
                 className="w-full sm:w-auto text-xl px-8 py-4 bg-primary-800 hover:bg-primary-900 border-primary-800"
               >

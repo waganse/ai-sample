@@ -1,6 +1,6 @@
-import SectionHeader from './shared/SectionHeader';
-import FeatureGrid from './shared/FeatureGrid';
 import FAQSection from './shared/FAQSection';
+import FeatureGrid from './shared/FeatureGrid';
+import SectionHeader from './shared/SectionHeader';
 
 export default function Support() {
   const supportFeatures = [

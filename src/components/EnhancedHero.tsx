@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import SakuraAnimation from '@/components/shared/SakuraAnimation';
 import Image from 'next/image';
 import Link from 'next/link';
-import SakuraAnimation from '@/components/shared/SakuraAnimation';
+import { useEffect, useState } from 'react';
 
 export default function EnhancedHero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -72,7 +72,9 @@ export default function EnhancedHero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
     }, 3000);
 
     return () => clearInterval(interval);
@@ -99,16 +101,12 @@ export default function EnhancedHero() {
             </div>
           ))}
         </div>
-        
+
         {/* Animated gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50/70 via-purple-50/60 to-pink-50/70 animate-gradient-shift" />
 
         {/* Beautiful sakura petals falling */}
-        <SakuraAnimation 
-          size="medium" 
-          intensity="normal" 
-          asBackground={true}
-        />
+        <SakuraAnimation size="medium" intensity="normal" asBackground={true} />
 
         {/* Enhanced floating background elements with subtle sakura colors */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-pink-200 to-rose-300 rounded-full opacity-15 animate-pulse blur-xl" />
@@ -128,7 +126,7 @@ export default function EnhancedHero() {
               isVisible ? 'animate-fade-in-up' : 'opacity-0'
             }`}
           >
-心に灯りをともす、トモリエ
+            心に灯りをともす、トモリエ
           </div>
 
           <h1
@@ -168,24 +166,35 @@ export default function EnhancedHero() {
           >
             <div className="bg-white/95 backdrop-blur-lg rounded-2xl p-4 shadow-xl border border-primary-100 hover:scale-105 transition-all duration-500 hover:shadow-2xl hover-glow">
               <div className="w-8 h-8 mb-3 mx-auto animate-bounce">
-                <svg className="w-full h-full text-primary-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                <svg
+                  className="w-full h-full text-primary-500"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
               </div>
-              <div className="text-sm font-semibold text-gray-800">パートナー探し</div>
+              <div className="text-sm font-semibold text-gray-800">
+                パートナー探し
+              </div>
               <div className="text-xs text-gray-600">心ときめく出会い</div>
             </div>
             <div className="bg-white/95 backdrop-blur-lg rounded-2xl p-4 shadow-xl border border-primary-100 hover:scale-105 transition-all duration-500 hover:shadow-2xl hover-glow">
               <div className="w-8 h-8 mb-3 mx-auto animate-bounce delay-75">
-                <svg className="w-full h-full text-primary-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v7H5v-5H2v-2h2zm6.5-2c.83 0 1.5-.67 1.5-1.5S11.33 14 10.5 14 9 14.67 9 15.5s.67 1.5 1.5 1.5zM12.5 11H11v5.5h1.5V11zM22 12l-4-2v1.5h-3v1h3V14l4-2zm-7.5 1.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z"/>
+                <svg
+                  className="w-full h-full text-primary-500"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v7H5v-5H2v-2h2zm6.5-2c.83 0 1.5-.67 1.5-1.5S11.33 14 10.5 14 9 14.67 9 15.5s.67 1.5 1.5 1.5zM12.5 11H11v5.5h1.5V11zM22 12l-4-2v1.5h-3v1h3V14l4-2zm-7.5 1.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z" />
                 </svg>
               </div>
-              <div className="text-sm font-semibold text-gray-800">友達作り</div>
+              <div className="text-sm font-semibold text-gray-800">
+                友達作り
+              </div>
               <div className="text-xs text-gray-600">趣味の仲間と</div>
             </div>
           </div>
-
 
           <div
             className={`flex flex-col gap-4 max-w-sm mx-auto ${
@@ -215,7 +224,9 @@ export default function EnhancedHero() {
               </button>
             </Link>
             <div className="text-center">
-              <div className="text-xl font-bold text-primary-600">月額980円</div>
+              <div className="text-xl font-bold text-primary-600">
+                月額980円
+              </div>
               <div className="text-sm text-gray-600">長期割引制度あり</div>
             </div>
           </div>
@@ -226,7 +237,9 @@ export default function EnhancedHero() {
           {/* Main Content Area */}
           <div className="w-full max-w-7xl mx-auto relative grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
-            <div className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+            <div
+              className={`space-y-8 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+            >
               <div className="space-y-6">
                 <div className="inline-flex items-center px-6 py-3 bg-white/90 backdrop-blur-sm rounded-full text-primary-800 font-medium text-sm border border-primary-200/50 shadow-xl animate-bounce-gentle">
                   🌸 心に灯りをともす、トモリエ
@@ -300,13 +313,17 @@ export default function EnhancedHero() {
                   <div className="text-3xl font-bold text-primary-600 mb-2 group-hover:text-primary-700 transition-colors">
                     月額980円
                   </div>
-                  <div className="text-sm text-gray-600">大手サービスの半額以下</div>
+                  <div className="text-sm text-gray-600">
+                    大手サービスの半額以下
+                  </div>
                 </div>
                 <div className="text-center group hover-lift bg-white/95 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-primary-100 z-40 hover-glow transition-all duration-500">
                   <div className="text-3xl font-bold text-primary-600 mb-2 group-hover:text-primary-700 transition-colors">
                     シンプル
                   </div>
-                  <div className="text-sm text-gray-600">スマホが苦手でも安心</div>
+                  <div className="text-sm text-gray-600">
+                    スマホが苦手でも安心
+                  </div>
                 </div>
                 <div className="text-center group hover-lift bg-white/95 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-primary-100 z-40 hover-glow transition-all duration-500">
                   <div className="text-3xl font-bold text-primary-600 mb-2 group-hover:text-primary-700 transition-colors">
@@ -318,7 +335,9 @@ export default function EnhancedHero() {
             </div>
 
             {/* Right Image Section with Enhanced Effects */}
-            <div className={`relative ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}>
+            <div
+              className={`relative ${isVisible ? 'animate-fade-in-right' : 'opacity-0'}`}
+            >
               <div className="relative bg-white/95 backdrop-blur-lg rounded-3xl p-6 shadow-3xl border border-white/50 hover:shadow-3xl transition-all duration-700 hover-lift">
                 <div className="bg-gradient-to-br from-primary-100/90 to-gray-100/90 rounded-2xl p-4 shadow-inner backdrop-blur-sm">
                   <div className="aspect-[4/5] rounded-xl relative overflow-hidden">

@@ -118,7 +118,7 @@ export function useAuth() {
 
   const signInWithProvider = async (provider: 'google' | 'facebook' | 'line') => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider === 'line' ? 'line' : provider,
+      provider: provider as any,
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },

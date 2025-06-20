@@ -27,7 +27,9 @@ export default function FeatureGrid({
   className = '',
   itemClassName = '',
 }: FeatureGridProps) {
-  const { getAnimationClass, getAnimationStyle } = useAnimation({ enabled: showAnimations });
+  const { getAnimationClass, getAnimationStyle } = useAnimation({
+    enabled: showAnimations,
+  });
 
   const getGridClass = () => {
     switch (layout) {
@@ -64,7 +66,9 @@ export default function FeatureGrid({
       style={getAnimationStyle(index)}
     >
       <div className="text-6xl mb-6">{feature.icon}</div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+        {feature.title}
+      </h3>
       <p className="text-gray-700 leading-relaxed">{feature.description}</p>
     </div>
   );
@@ -84,12 +88,17 @@ export default function FeatureGrid({
         </h3>
       </div>
 
-      <p className="text-gray-600 mb-4 leading-relaxed">{feature.description}</p>
+      <p className="text-gray-600 mb-4 leading-relaxed">
+        {feature.description}
+      </p>
 
       {feature.details && (
         <ul className="space-y-2 mb-4">
           {feature.details.map((detail, detailIndex) => (
-            <li key={detailIndex} className="flex items-center text-sm text-gray-500">
+            <li
+              key={detailIndex}
+              className="flex items-center text-sm text-gray-500"
+            >
               <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2"></span>
               {detail}
             </li>
@@ -99,7 +108,9 @@ export default function FeatureGrid({
 
       {feature.badge && (
         <div className="p-3 bg-primary-50 rounded-lg group-hover:bg-primary-100 transition-colors">
-          <div className="text-xs text-primary-700 font-medium">{feature.badge}</div>
+          <div className="text-xs text-primary-700 font-medium">
+            {feature.badge}
+          </div>
         </div>
       )}
     </div>
@@ -113,7 +124,9 @@ export default function FeatureGrid({
     >
       <div className="text-4xl mr-6 flex-shrink-0">{feature.icon}</div>
       <div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-3">
+          {feature.title}
+        </h3>
         <p className="text-gray-700 leading-relaxed">{feature.description}</p>
         {feature.details && (
           <ul className="mt-3 space-y-1">

@@ -31,12 +31,12 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   const formatTitle = (title: string) => {
     if (!titleBreakpoints) return title;
-    
+
     // Simple title formatting for line breaks
     if (titleBreakpoints.mobile || titleBreakpoints.desktop) {
       return title; // Title will be processed with breakpoints in JSX
     }
-    
+
     return title;
   };
 
@@ -54,32 +54,26 @@ export default function SectionHeader({
         );
       }
     }
-    
+
     return <h2 className={titleClassName}>{title}</h2>;
   };
 
   return (
     <div className={containerClassName}>
       {badge && (
-        <div 
+        <div
           className={`inline-flex items-center px-4 py-2 rounded-full font-medium text-sm mb-6 ${
             badge.bgColor || 'bg-primary-100'
-          } ${
-            badge.textColor || 'text-primary-800'
-          }`}
+          } ${badge.textColor || 'text-primary-800'}`}
         >
           {badge.icon && <span className="mr-1">{badge.icon}</span>}
           {badge.text}
         </div>
       )}
-      
+
       {renderTitle()}
-      
-      {description && (
-        <p className={descriptionClassName}>
-          {description}
-        </p>
-      )}
+
+      {description && <p className={descriptionClassName}>{description}</p>}
     </div>
   );
 }

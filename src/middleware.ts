@@ -60,14 +60,29 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // パスの定義
-  const protectedPaths = ['/dashboard', '/profile', '/matches', '/messages', '/communities'];
+  const protectedPaths = [
+    '/dashboard',
+    '/profile',
+    '/matches',
+    '/messages',
+    '/communities',
+  ];
   const authPaths = ['/auth/login', '/auth/register'];
-  const publicPaths = ['/', '/service', '/concept', '/pricing', '/terms', '/privacy', '/contact', '/help'];
-  
-  const isProtectedPath = protectedPaths.some(path => 
+  const publicPaths = [
+    '/',
+    '/service',
+    '/concept',
+    '/pricing',
+    '/terms',
+    '/privacy',
+    '/contact',
+    '/help',
+  ];
+
+  const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
-  const isAuthPath = authPaths.some(path =>
+  const isAuthPath = authPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
   const isPublicPath = publicPaths.includes(request.nextUrl.pathname);

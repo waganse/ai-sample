@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -65,7 +65,9 @@ export default function Hero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
     }, 3000);
 
     return () => clearInterval(interval);
@@ -114,12 +116,16 @@ export default function Hero() {
           <div className="grid grid-cols-2 gap-4 max-w-xs mx-auto">
             <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-primary-100">
               <div className="text-2xl mb-2">💕</div>
-              <div className="text-sm font-semibold text-gray-800">パートナー探し</div>
+              <div className="text-sm font-semibold text-gray-800">
+                パートナー探し
+              </div>
               <div className="text-xs text-gray-600">心ときめく出会い</div>
             </div>
             <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-primary-100">
               <div className="text-2xl mb-2">👥</div>
-              <div className="text-sm font-semibold text-gray-800">友達作り</div>
+              <div className="text-sm font-semibold text-gray-800">
+                友達作り
+              </div>
               <div className="text-xs text-gray-600">趣味の仲間と</div>
             </div>
           </div>
@@ -129,7 +135,9 @@ export default function Hero() {
               無料で始める（7日間無料）
             </button>
             <div className="text-center">
-              <div className="text-lg font-bold text-primary-600">月額980円</div>
+              <div className="text-lg font-bold text-primary-600">
+                月額980円
+              </div>
               <div className="text-sm text-gray-600">長期割引制度あり</div>
             </div>
           </div>
@@ -219,13 +227,17 @@ export default function Hero() {
                   <div className="text-2xl font-bold text-primary-600 mb-2 group-hover:text-primary-700">
                     月額980円
                   </div>
-                  <div className="text-xs text-gray-600">大手サービスの半額以下</div>
+                  <div className="text-xs text-gray-600">
+                    大手サービスの半額以下
+                  </div>
                 </div>
                 <div className="text-center group hover:scale-105 transition-transform bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-sm z-40">
                   <div className="text-2xl font-bold text-primary-600 mb-2 group-hover:text-primary-700">
                     シンプル
                   </div>
-                  <div className="text-xs text-gray-600">スマホが苦手でも安心</div>
+                  <div className="text-xs text-gray-600">
+                    スマホが苦手でも安心
+                  </div>
                 </div>
               </div>
             </div>
@@ -245,7 +257,9 @@ export default function Hero() {
                       <div
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-1000 ${
-                          index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                          index === currentImageIndex
+                            ? 'opacity-100'
+                            : 'opacity-0'
                         }`}
                       >
                         <Image
@@ -279,7 +293,9 @@ export default function Hero() {
                         <div
                           key={index}
                           className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                            index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
+                            index === currentImageIndex
+                              ? 'bg-white scale-125'
+                              : 'bg-white/50'
                           }`}
                         />
                       ))}
@@ -299,7 +315,9 @@ export default function Hero() {
                         <div
                           key={index}
                           className={`absolute inset-0 transition-opacity duration-1000 ${
-                            index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                            index === currentImageIndex
+                              ? 'opacity-100'
+                              : 'opacity-0'
                           }`}
                         >
                           <Image
@@ -319,10 +337,16 @@ export default function Hero() {
                     <div className="absolute bottom-3 left-3 right-3">
                       <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg transition-all duration-500">
                         <div className="text-sm font-semibold text-gray-800">
-                          {images[(currentImageIndex + 2) % images.length].title}
+                          {
+                            images[(currentImageIndex + 2) % images.length]
+                              .title
+                          }
                         </div>
                         <div className="text-xs text-gray-600">
-                          {images[(currentImageIndex + 2) % images.length].subtitle}
+                          {
+                            images[(currentImageIndex + 2) % images.length]
+                              .subtitle
+                          }
                         </div>
                       </div>
                     </div>
@@ -333,7 +357,9 @@ export default function Hero() {
                         <div
                           key={index}
                           className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                            index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
+                            index === currentImageIndex
+                              ? 'bg-white scale-125'
+                              : 'bg-white/50'
                           }`}
                         />
                       ))}
@@ -356,10 +382,17 @@ export default function Hero() {
                     <div
                       key={index}
                       className={`absolute inset-0 transition-opacity duration-1000 ${
-                        index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                        index === currentImageIndex
+                          ? 'opacity-100'
+                          : 'opacity-0'
                       }`}
                     >
-                      <Image src={image.src} alt={image.alt} fill className="object-cover" />
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                   ))}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
@@ -370,7 +403,9 @@ export default function Hero() {
                       <div
                         key={index}
                         className={`w-1 h-1 rounded-full transition-all duration-300 ${
-                          index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
+                          index === currentImageIndex
+                            ? 'bg-white scale-125'
+                            : 'bg-white/50'
                         }`}
                       />
                     ))}
@@ -389,7 +424,9 @@ export default function Hero() {
                       <div
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-1000 ${
-                          index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                          index === currentImageIndex
+                            ? 'opacity-100'
+                            : 'opacity-0'
                         }`}
                       >
                         <Image
@@ -409,7 +446,9 @@ export default function Hero() {
                       <div
                         key={index}
                         className={`w-1 h-1 rounded-full transition-all duration-300 ${
-                          index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
+                          index === currentImageIndex
+                            ? 'bg-white scale-125'
+                            : 'bg-white/50'
                         }`}
                       />
                     ))}

@@ -27,7 +27,9 @@ export default function Testimonials() {
     <section className="section-padding bg-gray-50">
       <div className="container-max">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">利用者の声</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+            利用者の声
+          </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             実際にトモリエをご利用いただいている皆様から、嬉しいお声をいただいています。
           </p>
@@ -39,13 +41,17 @@ export default function Testimonials() {
               <div className="flex items-center mb-6">
                 <div className="text-4xl mr-4">{testimonial.avatar}</div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-lg">{testimonial.name}</h3>
+                  <h3 className="font-semibold text-gray-900 text-lg">
+                    {testimonial.name}
+                  </h3>
                   <p className="text-gray-600 text-sm">
                     {testimonial.age} · {testimonial.location}
                   </p>
                 </div>
               </div>
-              <p className="text-gray-700 leading-relaxed italic">&quot;{testimonial.text}&quot;</p>
+              <p className="text-gray-700 leading-relaxed italic">
+                &quot;{testimonial.text}&quot;
+              </p>
               <div className="flex mt-6">
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="text-primary-500 text-xl">

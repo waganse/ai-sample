@@ -26,16 +26,19 @@ export async function sendMagicLinkEmail(email: string, redirectTo?: string) {
     }
 
     if (!existingUser) {
-      throw new Error('このメールアドレスは登録されていません。先にアカウントを作成してください。');
+      throw new Error(
+        'このメールアドレスは登録されていません。先にアカウントを作成してください。'
+      );
     }
 
     // 既存ユーザーにのみマジックリンクを送信
     const { data, error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: redirectTo || `${window.location.origin}/auth/callback`,
+        emailRedirectTo:
+          redirectTo || `${window.location.origin}/auth/callback`,
         shouldCreateUser: false, // 新規ユーザー作成を防ぐ
-      }
+      },
     });
 
     if (error) throw error;
@@ -47,7 +50,11 @@ export async function sendMagicLinkEmail(email: string, redirectTo?: string) {
 }
 
 // 新規ユーザー用のサインアップメール送信
-export async function sendSignupEmail(email: string, password?: string, redirectTo?: string) {
+export async function sendSignupEmail(
+  email: string,
+  password?: string,
+  redirectTo?: string
+) {
   try {
     let data, error;
 
@@ -57,25 +64,27 @@ export async function sendSignupEmail(email: string, password?: string, redirect
         email,
         password,
         options: {
-          emailRedirectTo: redirectTo || `${window.location.origin}/auth/callback`,
+          emailRedirectTo:
+            redirectTo || `${window.location.origin}/auth/callback`,
           data: {
             user_type: 'senior',
             registration_source: 'tomorie_app',
-          }
-        }
+          },
+        },
       }));
     } else {
       // パスワードレスサインアップ（OTP）
       ({ data, error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: redirectTo || `${window.location.origin}/auth/callback`,
+          emailRedirectTo:
+            redirectTo || `${window.location.origin}/auth/callback`,
           shouldCreateUser: true, // 新規ユーザー作成を許可
           data: {
             user_type: 'senior',
             registration_source: 'tomorie_app',
-          }
-        }
+          },
+        },
       }));
     }
 
@@ -102,7 +111,10 @@ export async function sendPasswordResetEmail(email: string) {
 }
 
 // サーバーサイドでの管理者機能
-export async function sendAdminEmail(email: string, type: 'invite' | 'welcome') {
+export async function sendAdminEmail(
+  email: string,
+  type: 'invite' | 'welcome'
+) {
   try {
     if (type === 'invite') {
       const { data, error } = await supabaseAdmin.auth.admin.generateLink({
@@ -112,8 +124,8 @@ export async function sendAdminEmail(email: string, type: 'invite' | 'welcome') 
           data: {
             admin_invite: true,
             email_type: type,
-          }
-        }
+          },
+        },
       });
       if (error) throw error;
       return data;
@@ -126,8 +138,8 @@ export async function sendAdminEmail(email: string, type: 'invite' | 'welcome') 
           data: {
             admin_invite: true,
             email_type: type,
-          }
-        }
+          },
+        },
       });
       if (error) throw error;
       return data;

@@ -102,7 +102,9 @@ export default function PricingSection({
 
         {/* 共通機能セクション */}
         <div className="bg-gradient-to-r from-primary-50 to-blue-50 rounded-3xl p-5 md:p-8 mb-16 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-center text-gray-900 mb-6">全プラン共通機能</h3>
+          <h3 className="text-2xl font-bold text-center text-gray-900 mb-6">
+            全プラン共通機能
+          </h3>
           <p className="text-center text-gray-600 mb-8">
             どのプランをお選びいただいても、同じ高品質なサービスをご利用いただけます
           </p>
@@ -113,10 +115,16 @@ export default function PricingSection({
                 className={`flex items-center bg-white rounded-xl p-4 shadow-sm ${
                   showAnimations && isVisible ? 'animate-fade-in-up' : ''
                 }`}
-                style={showAnimations ? { animationDelay: `${index * 50}ms` } : {}}
+                style={
+                  showAnimations ? { animationDelay: `${index * 50}ms` } : {}
+                }
               >
                 <div className="w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    className="w-3 h-3 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       fillRule="evenodd"
                       d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -139,14 +147,16 @@ export default function PricingSection({
                 plan.color === 'primary'
                   ? 'from-primary-50 to-white border-primary-200'
                   : plan.color === 'blue'
-                  ? 'from-blue-50 to-white border-blue-200'
-                  : plan.color === 'purple'
-                  ? 'from-purple-50 to-white border-purple-200'
-                  : 'from-green-50 to-white border-green-200'
+                    ? 'from-blue-50 to-white border-blue-200'
+                    : plan.color === 'purple'
+                      ? 'from-purple-50 to-white border-purple-200'
+                      : 'from-green-50 to-white border-green-200'
               } rounded-3xl p-6 pt-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border-2 ${
                 showAnimations && isVisible ? 'animate-fade-in-up' : ''
               }`}
-              style={showAnimations ? { animationDelay: `${index * 200}ms` } : {}}
+              style={
+                showAnimations ? { animationDelay: `${index * 200}ms` } : {}
+              }
             >
               {/* Badge */}
               <div
@@ -154,31 +164,35 @@ export default function PricingSection({
                   plan.color === 'primary'
                     ? 'bg-primary-500'
                     : plan.color === 'blue'
-                    ? 'bg-blue-500'
-                    : plan.color === 'purple'
-                    ? 'bg-purple-500'
-                    : 'bg-green-500'
+                      ? 'bg-blue-500'
+                      : plan.color === 'purple'
+                        ? 'bg-purple-500'
+                        : 'bg-green-500'
                 } text-white rounded-full text-sm font-bold shadow-lg`}
               >
                 {plan.badge}
               </div>
 
               <div className="text-center">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {plan.name}
+                </h3>
                 <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
 
                 <div>
                   <div className="flex items-center justify-center gap-2 mb-2 h-6">
-                    <span className="text-sm text-gray-500 line-through">{plan.originalPrice}</span>
+                    <span className="text-sm text-gray-500 line-through">
+                      {plan.originalPrice}
+                    </span>
                     <span
                       className={`px-2 py-1 ${
                         plan.color === 'primary'
                           ? 'bg-white'
                           : plan.color === 'blue'
-                          ? 'bg-blue-500'
-                          : plan.color === 'purple'
-                          ? 'bg-purple-500'
-                          : 'bg-green-500'
+                            ? 'bg-blue-500'
+                            : plan.color === 'purple'
+                              ? 'bg-purple-500'
+                              : 'bg-green-500'
                       } text-white text-xs rounded-full font-bold`}
                     >
                       {plan.discount}
@@ -186,8 +200,12 @@ export default function PricingSection({
                   </div>
 
                   <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600 text-sm">/{plan.period}</span>
+                    <span className="text-3xl font-bold text-gray-900">
+                      {plan.price}
+                    </span>
+                    <span className="text-gray-600 text-sm">
+                      /{plan.period}
+                    </span>
                   </div>
 
                   <div className="text-green-600 font-medium mt-1 text-sm h-5">

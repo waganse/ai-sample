@@ -9,23 +9,22 @@ import {
   Section,
   Text,
 } from '@react-email/components';
-import { MatchNotificationEmailProps } from '../types';
-import { 
-  emailColors, 
-  emailFonts, 
-  emailSizes, 
-  baseStyles, 
-  contentStyles, 
-  buttonStyles, 
-  iconStyles,
-  footerStyles 
+import {
+  baseStyles,
+  buttonStyles,
+  contentStyles,
+  emailColors,
+  emailFonts,
+  emailSizes,
+  footerStyles,
 } from '../styles/modern-email-styles';
+import { MatchNotificationEmailProps } from '../types';
 
-export const MatchNotificationEmail = ({ 
-  userName, 
-  matchedUserName, 
-  matchedUserAge, 
-  profileUrl 
+export const MatchNotificationEmail = ({
+  userName,
+  matchedUserName,
+  matchedUserAge,
+  profileUrl,
 }: MatchNotificationEmailProps) => {
   return (
     <Html>
@@ -49,8 +48,11 @@ export const MatchNotificationEmail = ({
           .animate-sparkle { animation: sparkle 2s ease-in-out infinite; }
         `}</style>
       </Head>
-      <Preview>🎉 おめでとうございます！{matchedUserName}さん（{String(matchedUserAge)}歳）と素敵なマッチが成立しました。新しい出会いの始まりです！</Preview>
-      
+      <Preview>
+        🎉 おめでとうございます！{matchedUserName}さん（{String(matchedUserAge)}
+        歳）と素敵なマッチが成立しました。新しい出会いの始まりです！
+      </Preview>
+
       <Body style={main}>
         <Container style={container}>
           {/* ヘッダーセクション */}
@@ -64,7 +66,7 @@ export const MatchNotificationEmail = ({
             <Heading style={headerTitle}>新しいマッチが成立！</Heading>
             <Text style={headerSubtitle}>おめでとうございます</Text>
           </Section>
-          
+
           {/* メインコンテンツ */}
           <Section style={contentSection}>
             <div style={matchIconContainer}>
@@ -72,71 +74,80 @@ export const MatchNotificationEmail = ({
                 <Text style={heartIcon}>💕</Text>
               </div>
             </div>
-            
-            <Text style={greeting}>
-              {userName}様
-            </Text>
-            
-            <Text style={paragraph}>
-              素敵なニュースをお届けします！
-            </Text>
-            
+
+            <Text style={greeting}>{userName}様</Text>
+
+            <Text style={paragraph}>素敵なニュースをお届けします！</Text>
+
             <div style={matchHighlight}>
               <Text style={matchText}>
-                <strong style={matchedUserNameStyle}>{matchedUserName}さん（{matchedUserAge}歳）</strong><br />
+                <strong style={matchedUserNameStyle}>
+                  {matchedUserName}さん（{matchedUserAge}歳）
+                </strong>
+                <br />
                 とマッチが成立いたしました！
               </Text>
             </div>
-            
+
             <Text style={paragraph}>
-              これは、お互いに「素敵な方だな」と感じた方同士の特別なマッチングです。<br />
+              これは、お互いに「素敵な方だな」と感じた方同士の特別なマッチングです。
+              <br />
               きっと素晴らしい出会いになることでしょう。
             </Text>
-            
+
             <Text style={paragraph}>
-              まずは温かいメッセージを送って、<br />
+              まずは温かいメッセージを送って、
+              <br />
               新しい友情の第一歩を踏み出してみませんか？
             </Text>
-            
+
             <Section style={buttonContainer}>
               <Link href={profileUrl} style={primaryButton}>
                 💬 {matchedUserName}さんとお話しする
               </Link>
             </Section>
-            
+
             {/* ティップスセクション */}
             <div style={tipsContainer}>
-              <Text style={tipsTitle}>
-                💡 素敵な会話を始めるコツ
-              </Text>
+              <Text style={tipsTitle}>💡 素敵な会話を始めるコツ</Text>
               <Text style={tipsContent}>
-                • プロフィールの共通点に触れてみましょう<br />
-                • 趣味や興味について質問してみましょう<br />
-                • 丁寧で温かい言葉を心がけましょう<br />
-                • 相手の人生経験に敬意を示しましょう<br />
-                • 地域の話題で親近感を演出しましょう
+                • プロフィールの共通点に触れてみましょう
+                <br />
+                • 趣味や興味について質問してみましょう
+                <br />
+                • 丁寧で温かい言葉を心がけましょう
+                <br />
+                • 相手の人生経験に敬意を示しましょう
+                <br />• 地域の話題で親近感を演出しましょう
               </Text>
             </div>
-            
+
             <div style={encouragementBox}>
               <Text style={encouragementText}>
-                🌸 新しい出会いは人生を豊かにしてくれます。<br />
+                🌸 新しい出会いは人生を豊かにしてくれます。
+                <br />
                 あなたの温かい心で、素敵な繋がりを育んでください。
               </Text>
             </div>
           </Section>
-          
+
           {/* フッター */}
           <Section style={footer}>
             <Text style={signature}>
-              素敵な出会いを心より応援しています<br />
+              素敵な出会いを心より応援しています
+              <br />
               <strong>トモリエチーム一同</strong>
             </Text>
             <Text style={contact}>
               📧 support@tomorie.jp | 🌐 https://tomorie.jp
             </Text>
             <Text style={unsubscribe}>
-              マッチ通知の設定は <Link href="#" style={linkStyle}>こちら</Link> から変更できます。<br />
+              マッチ通知の設定は{' '}
+              <Link href="#" style={linkStyle}>
+                こちら
+              </Link>{' '}
+              から変更できます。
+              <br />
               このメールに心当たりがない場合は、お手数ですがご連絡ください。
             </Text>
           </Section>

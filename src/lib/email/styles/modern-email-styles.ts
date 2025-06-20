@@ -6,7 +6,7 @@ export const emailColors = {
   primaryDark: '#0d9488',
   primaryLight: '#5eead4',
   primaryUltraLight: '#f0fdfa',
-  
+
   // ニュートラルカラー
   white: '#ffffff',
   gray50: '#f9fafb',
@@ -19,13 +19,13 @@ export const emailColors = {
   gray700: '#374151',
   gray800: '#1f2937',
   gray900: '#111827',
-  
+
   // アクセントカラー
   warm: '#f59e0b',
   warmLight: '#fef3c7',
   success: '#10b981',
   successLight: '#ecfdf5',
-  
+
   // グラデーション
   gradientPrimary: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
   gradientWarm: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
@@ -33,8 +33,10 @@ export const emailColors = {
 };
 
 export const emailFonts = {
-  primary: '"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
-  heading: '"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
+  primary:
+    '"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
+  heading:
+    '"Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
 };
 
 export const emailSizes = {
@@ -47,7 +49,7 @@ export const emailSizes = {
   '2xl': '24px',
   '3xl': '30px',
   '4xl': '36px',
-  
+
   // スペーシング
   spacing: {
     xs: '8px',
@@ -59,7 +61,7 @@ export const emailSizes = {
     '3xl': '40px',
     '4xl': '48px',
   },
-  
+
   // ボーダーラディウス
   radius: {
     sm: '4px',
@@ -80,14 +82,14 @@ export const baseStyles = {
     lineHeight: '1.6',
     color: emailColors.gray800,
   },
-  
+
   header: {
     background: emailColors.gradientPrimary,
     padding: `${emailSizes.spacing['2xl']} ${emailSizes.spacing.xl}`,
     textAlign: 'center' as const,
     borderRadius: `${emailSizes.radius.lg} ${emailSizes.radius.lg} 0 0`,
   },
-  
+
   logo: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -99,14 +101,14 @@ export const baseStyles = {
     marginBottom: emailSizes.spacing.lg,
     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
   },
-  
+
   logoText: {
     fontSize: emailSizes['2xl'],
     fontWeight: '700',
     color: emailColors.primary,
     margin: '0',
   },
-  
+
   headerTitle: {
     fontSize: emailSizes['3xl'],
     fontWeight: '700',
@@ -114,7 +116,7 @@ export const baseStyles = {
     margin: `${emailSizes.spacing.md} 0 ${emailSizes.spacing.sm} 0`,
     textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
-  
+
   headerSubtitle: {
     fontSize: emailSizes.lg,
     color: emailColors.primaryLight,
@@ -129,21 +131,21 @@ export const contentStyles = {
     padding: `${emailSizes.spacing['3xl']} ${emailSizes.spacing.xl}`,
     backgroundColor: emailColors.white,
   },
-  
+
   greeting: {
     fontSize: emailSizes.xl,
     fontWeight: '600',
     color: emailColors.gray800,
     marginBottom: emailSizes.spacing.lg,
   },
-  
+
   paragraph: {
     fontSize: emailSizes.lg,
     lineHeight: '1.7',
     color: emailColors.gray700,
     margin: `${emailSizes.spacing.lg} 0`,
   },
-  
+
   highlight: {
     backgroundColor: emailColors.primaryUltraLight,
     padding: `${emailSizes.spacing.md} ${emailSizes.spacing.lg}`,
@@ -151,7 +153,7 @@ export const contentStyles = {
     borderLeft: `4px solid ${emailColors.primary}`,
     margin: `${emailSizes.spacing.xl} 0`,
   },
-  
+
   highlightText: {
     fontSize: emailSizes.lg,
     color: emailColors.gray800,
@@ -166,7 +168,7 @@ export const buttonStyles = {
     textAlign: 'center' as const,
     margin: `${emailSizes.spacing['3xl']} 0`,
   },
-  
+
   primary: {
     display: 'inline-block',
     background: emailColors.gradientPrimary,
@@ -179,7 +181,7 @@ export const buttonStyles = {
     boxShadow: '0 4px 15px rgba(20, 184, 166, 0.3)',
     transition: 'all 0.3s ease',
   },
-  
+
   secondary: {
     display: 'inline-block',
     backgroundColor: emailColors.white,
@@ -200,12 +202,12 @@ export const iconStyles = {
     textAlign: 'center' as const,
     margin: `${emailSizes.spacing.xl} 0`,
   },
-  
+
   large: {
     fontSize: '48px',
     lineHeight: '1',
   },
-  
+
   background: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -227,7 +229,7 @@ export const tipsStyles = {
     border: `1px solid ${emailColors.primaryLight}`,
     margin: `${emailSizes.spacing.xl} 0`,
   },
-  
+
   title: {
     fontSize: emailSizes.lg,
     fontWeight: '600',
@@ -237,7 +239,7 @@ export const tipsStyles = {
     alignItems: 'center',
     gap: emailSizes.spacing.sm,
   },
-  
+
   content: {
     fontSize: emailSizes.base,
     lineHeight: '1.7',
@@ -255,26 +257,26 @@ export const footerStyles = {
     borderTop: `1px solid ${emailColors.gray200}`,
     borderRadius: `0 0 ${emailSizes.radius.lg} ${emailSizes.radius.lg}`,
   },
-  
+
   signature: {
     fontSize: emailSizes.base,
     color: emailColors.gray600,
     margin: `0 0 ${emailSizes.spacing.md} 0`,
     fontWeight: '500',
   },
-  
+
   contact: {
     fontSize: emailSizes.sm,
     color: emailColors.gray500,
     margin: '0',
   },
-  
+
   unsubscribe: {
     fontSize: emailSizes.xs,
     color: emailColors.gray400,
     margin: `${emailSizes.spacing.lg} 0 0 0`,
   },
-  
+
   link: {
     color: emailColors.primary,
     textDecoration: 'none',

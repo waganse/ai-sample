@@ -1,5 +1,8 @@
+import {
+  sendEmailViaEdgeFunction,
+  sendNotificationEmail,
+} from '@/lib/email/supabase-email';
 import { NextRequest, NextResponse } from 'next/server';
-import { sendEmailViaEdgeFunction, sendNotificationEmail } from '@/lib/email/supabase-email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,13 +16,13 @@ export async function POST(request: NextRequest) {
         subject,
         html,
         text,
-        ...data
+        ...data,
       });
 
       return NextResponse.json({
         success: true,
         notificationId: result.id,
-        message: 'Notification created successfully'
+        message: 'Notification created successfully',
       });
     }
 
@@ -29,13 +32,13 @@ export async function POST(request: NextRequest) {
         to,
         subject,
         html,
-        text
+        text,
       });
 
       return NextResponse.json({
         success: true,
         data: result,
-        message: 'Email sent via Edge Function'
+        message: 'Email sent via Edge Function',
       });
     }
 
@@ -43,14 +46,13 @@ export async function POST(request: NextRequest) {
       { error: 'Missing required fields' },
       { status: 400 }
     );
-
   } catch (error) {
     console.error('Supabase email API error:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to send email',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

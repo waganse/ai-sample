@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Service Role Keyを使用したSupabaseクライアント
 const supabaseAdmin = createClient(
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         exists: false,
         confirmed: false,
-        message: 'ユーザーが見つかりませんでした'
+        message: 'ユーザーが見つかりませんでした',
       });
     }
 
@@ -58,16 +58,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       exists: true,
       confirmed: true,
-      message: 'ユーザーが存在し、確認済みです'
+      message: 'ユーザーが存在し、確認済みです',
     });
-
   } catch (error) {
     console.error('Check user error:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'ユーザー確認処理でエラーが発生しました',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

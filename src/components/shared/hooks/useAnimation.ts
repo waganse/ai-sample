@@ -42,4 +42,3 @@ export function useAnimation(options: UseAnimationOptions = {}) {
     getAnimationStyle,
   };
 }
-

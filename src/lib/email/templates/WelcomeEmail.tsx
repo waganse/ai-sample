@@ -9,19 +9,22 @@ import {
   Section,
   Text,
 } from '@react-email/components';
-import { WelcomeEmailProps } from '../types';
-import { 
-  emailColors, 
-  emailFonts, 
-  emailSizes, 
-  baseStyles, 
-  contentStyles, 
-  buttonStyles, 
+import {
+  baseStyles,
+  buttonStyles,
+  contentStyles,
+  emailColors,
+  emailFonts,
+  emailSizes,
+  footerStyles,
   iconStyles,
-  footerStyles 
 } from '../styles/modern-email-styles';
+import { WelcomeEmailProps } from '../types';
 
-export const WelcomeEmail = ({ userName, verificationUrl }: WelcomeEmailProps) => {
+export const WelcomeEmail = ({
+  userName,
+  verificationUrl,
+}: WelcomeEmailProps) => {
   return (
     <Html>
       <Head>
@@ -42,8 +45,11 @@ export const WelcomeEmail = ({ userName, verificationUrl }: WelcomeEmailProps) =
           .animate-pulse { animation: pulse 2s infinite; }
         `}</style>
       </Head>
-      <Preview>🌸 トモリエへようこそ！新しい人生の扉が開かれました。素敵な出会いと温かいコミュニティがあなたを待っています。</Preview>
-      
+      <Preview>
+        🌸
+        トモリエへようこそ！新しい人生の扉が開かれました。素敵な出会いと温かいコミュニティがあなたを待っています。
+      </Preview>
+
       <Body style={main}>
         <Container style={container}>
           {/* ヘッダーセクション */}
@@ -54,9 +60,11 @@ export const WelcomeEmail = ({ userName, verificationUrl }: WelcomeEmailProps) =
               </div>
             </div>
             <Heading style={headerTitle}>トモリエへようこそ</Heading>
-            <Text style={headerSubtitle}>心に灯りをともす、新しいコミュニティ</Text>
+            <Text style={headerSubtitle}>
+              心に灯りをともす、新しいコミュニティ
+            </Text>
           </Section>
-          
+
           {/* メインコンテンツ */}
           <Section style={contentSection}>
             <div style={iconContainer}>
@@ -64,27 +72,29 @@ export const WelcomeEmail = ({ userName, verificationUrl }: WelcomeEmailProps) =
                 <Text style={iconText}>🌸</Text>
               </div>
             </div>
-            
-            <Text style={greeting}>
-              {userName}様
-            </Text>
-            
+
+            <Text style={greeting}>{userName}様</Text>
+
             <Text style={paragraph}>
-              この度は、<strong>トモリエ</strong>にご登録いただき、心より感謝申し上げます。
+              この度は、<strong>トモリエ</strong>
+              にご登録いただき、心より感謝申し上げます。
             </Text>
-            
+
             <div style={highlightBox}>
               <Text style={highlightText}>
-                <strong>トモリエ</strong>は、60歳以上の皆様のための特別なコミュニティです。<br />
+                <strong>トモリエ</strong>
+                は、60歳以上の皆様のための特別なコミュニティです。
+                <br />
                 新しい出会い、深い友情、そして人生の素晴らしい第二章を一緒に楽しみましょう。
               </Text>
             </div>
-            
+
             <Text style={paragraph}>
-              あなたの豊かな経験と知恵が、きっと多くの方々の心を温かくし、<br />
+              あなたの豊かな経験と知恵が、きっと多くの方々の心を温かくし、
+              <br />
               素敵な繋がりを生み出すことでしょう。
             </Text>
-            
+
             {verificationUrl && (
               <Section style={buttonContainer}>
                 <Link href={verificationUrl} style={primaryButton}>
@@ -92,38 +102,47 @@ export const WelcomeEmail = ({ userName, verificationUrl }: WelcomeEmailProps) =
                 </Link>
               </Section>
             )}
-            
+
             {/* ティップスセクション */}
             <div style={tipsContainer}>
               <Text style={tipsTitle}>
                 🌟 トモリエで素敵な時間を過ごすために
               </Text>
               <Text style={tipsContent}>
-                • プロフィールに趣味や興味を詳しく書いてみましょう<br />
-                • 共通の話題でコミュニティに参加してみましょう<br />
-                • 温かい言葉で新しい友達に話しかけてみましょう<br />
-                • 地域のイベントにも積極的に参加してみましょう
+                • プロフィールに趣味や興味を詳しく書いてみましょう
+                <br />
+                • 共通の話題でコミュニティに参加してみましょう
+                <br />
+                • 温かい言葉で新しい友達に話しかけてみましょう
+                <br />• 地域のイベントにも積極的に参加してみましょう
               </Text>
             </div>
-            
+
             <Text style={paragraph}>
-              ご不明な点やご質問がございましたら、いつでもお気軽にお声かけください。<br />
+              ご不明な点やご質問がございましたら、いつでもお気軽にお声かけください。
+              <br />
               私たちがしっかりとサポートいたします。
             </Text>
           </Section>
-          
+
           {/* フッター */}
           <Section style={footer}>
             <Text style={signature}>
-              素敵な出会いと温かい繋がりを心より応援しています<br />
+              素敵な出会いと温かい繋がりを心より応援しています
+              <br />
               <strong>トモリエチーム一同</strong>
             </Text>
             <Text style={contact}>
               📧 support@tomorie.jp | 🌐 https://tomorie.jp
             </Text>
             <Text style={unsubscribe}>
-              このメールは、トモリエのサービスに関する重要なお知らせです。<br />
-              配信停止をご希望の場合は <Link href="#" style={linkStyle}>こちら</Link> からお手続きください。
+              このメールは、トモリエのサービスに関する重要なお知らせです。
+              <br />
+              配信停止をご希望の場合は{' '}
+              <Link href="#" style={linkStyle}>
+                こちら
+              </Link>{' '}
+              からお手続きください。
             </Text>
           </Section>
         </Container>

@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Icons } from '@/components/ui/Icons';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const tabs = [
   {
@@ -42,7 +42,7 @@ export function TabNavigation() {
         {tabs.map((tab) => {
           const isActive = pathname === tab.href;
           const Icon = tab.icon;
-          
+
           return (
             <Link
               key={tab.name}
@@ -55,13 +55,13 @@ export function TabNavigation() {
                   : 'text-gray-500 hover:text-gray-700'
               )}
             >
-              <Icon 
+              <Icon
                 className={cn(
                   'h-6 w-6 mb-1',
                   isActive ? 'text-primary-600' : 'text-gray-500'
                 )}
               />
-              <span 
+              <span
                 className={cn(
                   'text-xs font-medium truncate',
                   isActive ? 'text-primary-600' : 'text-gray-500'

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { testEmailSending } from '@/lib/email/service';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   // 開発環境でのみ実行を許可
@@ -27,16 +27,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Test email sent successfully',
-      result
+      result,
     });
-
   } catch (error) {
     console.error('Test email error:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to send test email',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );
@@ -55,6 +54,6 @@ export async function GET() {
     message: 'Email test endpoint',
     usage: 'POST /api/email/test with { "email": "test@example.com" }',
     environment: process.env.NODE_ENV,
-    resendConfigured: !!process.env.RESEND_API_KEY
+    resendConfigured: !!process.env.RESEND_API_KEY,
   });
 }

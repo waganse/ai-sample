@@ -1,4 +1,11 @@
-import type { User, UserPhoto, Community, CommunityMember, Match, Message } from '@prisma/client';
+import type {
+  Community,
+  CommunityMember,
+  Match,
+  Message,
+  User,
+  UserPhoto,
+} from '@prisma/client';
 
 // User types
 export type UserWithPhotos = User & {

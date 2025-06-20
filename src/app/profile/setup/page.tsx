@@ -1,26 +1,25 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { Icons } from '@/components/ui/Icons';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ErrorMessage } from '@/components/ui/ErrorBoundary';
+import { Icons } from '@/components/ui/Icons';
+import { Input } from '@/components/ui/Input';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
 import { calculateAge } from '@/lib/utils';
-import { 
+import {
+  EDUCATION_OPTIONS,
+  PREFECTURES,
   profileSetupSchema,
   step1Schema,
   step2Schema,
   step3Schema,
   step4Schema,
   step5Schema,
-  PREFECTURES,
-  EDUCATION_OPTIONS,
-  type ProfileSetupData 
 } from '@/lib/validations/profile';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { z } from 'zod';
 
 interface FormData {
@@ -41,7 +40,7 @@ export default function ProfileSetupPage() {
   const [error, setError] = useState<string>('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [step, setStep] = useState(1);
-  
+
   const [profileData, setProfileData] = useState<FormData>({
     displayName: '',
     birthDate: '',
@@ -54,14 +53,14 @@ export default function ProfileSetupPage() {
   });
 
   const handleInputChange = (field: keyof FormData, value: string) => {
-    setProfileData(prev => ({
+    setProfileData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
-    
+
     // フィールドエラーをクリア
     if (fieldErrors[field]) {
-      setFieldErrors(prev => {
+      setFieldErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[field];
         return newErrors;
@@ -71,7 +70,7 @@ export default function ProfileSetupPage() {
 
   const validateCurrentStep = () => {
     setFieldErrors({});
-    
+
     try {
       switch (step) {
         case 1:
@@ -111,7 +110,7 @@ export default function ProfileSetupPage() {
     if (!validateCurrentStep()) {
       return;
     }
-    
+
     setError('');
     setStep(step + 1);
   };
@@ -124,7 +123,7 @@ export default function ProfileSetupPage() {
     try {
       // 最終バリデーション
       const validatedData = profileSetupSchema.parse(profileData);
-      
+
       const profilePayload = {
         display_name: validatedData.displayName,
         birth_date: validatedData.birthDate,
@@ -188,13 +187,11 @@ export default function ProfileSetupPage() {
               <p className="text-sm text-gray-600">心に灯りをともす</p>
             </div>
           </div>
-          
+
           <h2 className="text-3xl font-bold text-gray-900 mb-3">
             プロフィール設定
           </h2>
-          <p className="text-lg text-gray-600">
-            あなたのことを教えてください
-          </p>
+          <p className="text-lg text-gray-600">あなたのことを教えてください</p>
         </div>
 
         {/* プログレスバー */}
@@ -202,33 +199,36 @@ export default function ProfileSetupPage() {
           <div className="flex items-center justify-center space-x-4 mb-4">
             {[1, 2, 3, 4, 5].map((stepNumber) => (
               <div key={stepNumber} className="flex items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg
-                  ${step >= stepNumber 
-                    ? 'bg-primary-600 text-white' 
-                    : 'bg-gray-200 text-gray-500'
-                  }`}>
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg
+                  ${
+                    step >= stepNumber
+                      ? 'bg-primary-600 text-white'
+                      : 'bg-gray-200 text-gray-500'
+                  }`}
+                >
                   {stepNumber}
                 </div>
                 {stepNumber < 5 && (
-                  <div className={`w-12 h-1 mx-2 ${
-                    step > stepNumber ? 'bg-primary-600' : 'bg-gray-200'
-                  }`} />
+                  <div
+                    className={`w-12 h-1 mx-2 ${
+                      step > stepNumber ? 'bg-primary-600' : 'bg-gray-200'
+                    }`}
+                  />
                 )}
               </div>
             ))}
           </div>
           <div className="text-center">
-            <p className="text-lg text-gray-600">
-              ステップ {step} / 5
-            </p>
+            <p className="text-lg text-gray-600">ステップ {step} / 5</p>
           </div>
         </div>
 
         <Card className="p-8">
           {error && (
             <div className="mb-6">
-              <ErrorMessage 
-                title="入力エラー" 
+              <ErrorMessage
+                title="入力エラー"
                 message={error}
                 onRetry={() => setError('')}
               />
@@ -240,19 +240,23 @@ export default function ProfileSetupPage() {
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">
                 基本情報
               </h3>
-              
+
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-3">
                   表示名
                 </label>
                 <Input
                   value={profileData.displayName}
-                  onChange={(e) => handleInputChange('displayName', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('displayName', e.target.value)
+                  }
                   placeholder="たろうさん"
                   className={`text-lg ${fieldErrors.displayName ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.displayName && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.displayName}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.displayName}
+                  </p>
                 )}
                 <p className="text-sm text-gray-500 mt-2">
                   他のユーザーに表示される名前です。本名でなくても構いません。
@@ -266,7 +270,7 @@ export default function ProfileSetupPage() {
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">
                 詳細情報
               </h3>
-              
+
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-3">
                   生年月日
@@ -274,11 +278,15 @@ export default function ProfileSetupPage() {
                 <Input
                   type="date"
                   value={profileData.birthDate}
-                  onChange={(e) => handleInputChange('birthDate', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('birthDate', e.target.value)
+                  }
                   className={`text-lg ${fieldErrors.birthDate ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.birthDate && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.birthDate}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.birthDate}
+                  </p>
                 )}
                 {profileData.birthDate && !fieldErrors.birthDate && (
                   <p className="text-sm text-gray-500 mt-2">
@@ -302,7 +310,9 @@ export default function ProfileSetupPage() {
                   <option value="other">その他</option>
                 </select>
                 {fieldErrors.gender && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.gender}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.gender}
+                  </p>
                 )}
               </div>
             </div>
@@ -313,23 +323,29 @@ export default function ProfileSetupPage() {
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">
                 住所情報
               </h3>
-              
+
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-3">
                   都道府県
                 </label>
                 <select
                   value={profileData.prefecture}
-                  onChange={(e) => handleInputChange('prefecture', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('prefecture', e.target.value)
+                  }
                   className={`w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${fieldErrors.prefecture ? 'border-red-500' : ''}`}
                 >
                   <option value="">選択してください</option>
                   {PREFECTURES.map((pref) => (
-                    <option key={pref} value={pref}>{pref}</option>
+                    <option key={pref} value={pref}>
+                      {pref}
+                    </option>
                   ))}
                 </select>
                 {fieldErrors.prefecture && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.prefecture}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.prefecture}
+                  </p>
                 )}
               </div>
 
@@ -344,7 +360,9 @@ export default function ProfileSetupPage() {
                   className={`text-lg ${fieldErrors.city ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.city && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.city}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.city}
+                  </p>
                 )}
               </div>
             </div>
@@ -355,19 +373,23 @@ export default function ProfileSetupPage() {
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">
                 職歴・学歴
               </h3>
-              
+
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-3">
                   職業
                 </label>
                 <Input
                   value={profileData.occupation}
-                  onChange={(e) => handleInputChange('occupation', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('occupation', e.target.value)
+                  }
                   placeholder="会社員、公務員、自営業、主婦、退職者など"
                   className={`text-lg ${fieldErrors.occupation ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.occupation && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.occupation}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.occupation}
+                  </p>
                 )}
               </div>
 
@@ -377,16 +399,22 @@ export default function ProfileSetupPage() {
                 </label>
                 <select
                   value={profileData.education}
-                  onChange={(e) => handleInputChange('education', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('education', e.target.value)
+                  }
                   className={`w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${fieldErrors.education ? 'border-red-500' : ''}`}
                 >
                   <option value="">選択してください</option>
                   {EDUCATION_OPTIONS.map((edu) => (
-                    <option key={edu} value={edu}>{edu}</option>
+                    <option key={edu} value={edu}>
+                      {edu}
+                    </option>
                   ))}
                 </select>
                 {fieldErrors.education && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.education}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.education}
+                  </p>
                 )}
               </div>
             </div>
@@ -397,20 +425,24 @@ export default function ProfileSetupPage() {
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">
                 自己紹介
               </h3>
-              
+
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-3">
                   自己紹介文
                 </label>
                 <textarea
                   value={profileData.introduction}
-                  onChange={(e) => handleInputChange('introduction', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('introduction', e.target.value)
+                  }
                   placeholder="あなたの趣味や関心事、どんな方との出会いを求めているかなど、自由にお書きください。"
                   rows={6}
                   className={`w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none ${fieldErrors.introduction ? 'border-red-500' : ''}`}
                 />
                 {fieldErrors.introduction && (
-                  <p className="text-sm text-red-600 mt-1">{fieldErrors.introduction}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {fieldErrors.introduction}
+                  </p>
                 )}
                 <p className="text-sm text-gray-500 mt-2">
                   {profileData.introduction.length}/500文字
@@ -422,17 +454,39 @@ export default function ProfileSetupPage() {
                   プロフィール プレビュー
                 </h4>
                 <div className="space-y-2">
-                  <p><span className="font-medium">表示名:</span> {profileData.displayName}</p>
-                  <p><span className="font-medium">年齢:</span> {calculateAge(new Date(profileData.birthDate))}歳</p>
-                  <p><span className="font-medium">性別:</span> {
-                    profileData.gender === 'male' ? '男性' :
-                    profileData.gender === 'female' ? '女性' : 'その他'
-                  }</p>
-                  <p><span className="font-medium">居住地:</span> {profileData.prefecture} {profileData.city}</p>
-                  <p><span className="font-medium">職業:</span> {profileData.occupation}</p>
-                  <p><span className="font-medium">学歴:</span> {profileData.education}</p>
+                  <p>
+                    <span className="font-medium">表示名:</span>{' '}
+                    {profileData.displayName}
+                  </p>
+                  <p>
+                    <span className="font-medium">年齢:</span>{' '}
+                    {calculateAge(new Date(profileData.birthDate))}歳
+                  </p>
+                  <p>
+                    <span className="font-medium">性別:</span>{' '}
+                    {profileData.gender === 'male'
+                      ? '男性'
+                      : profileData.gender === 'female'
+                        ? '女性'
+                        : 'その他'}
+                  </p>
+                  <p>
+                    <span className="font-medium">居住地:</span>{' '}
+                    {profileData.prefecture} {profileData.city}
+                  </p>
+                  <p>
+                    <span className="font-medium">職業:</span>{' '}
+                    {profileData.occupation}
+                  </p>
+                  <p>
+                    <span className="font-medium">学歴:</span>{' '}
+                    {profileData.education}
+                  </p>
                   {profileData.introduction && (
-                    <p><span className="font-medium">自己紹介:</span> {profileData.introduction}</p>
+                    <p>
+                      <span className="font-medium">自己紹介:</span>{' '}
+                      {profileData.introduction}
+                    </p>
                   )}
                 </div>
               </div>
@@ -452,7 +506,7 @@ export default function ProfileSetupPage() {
                 戻る
               </Button>
             )}
-            
+
             <div className="ml-auto">
               {step < 5 ? (
                 <Button

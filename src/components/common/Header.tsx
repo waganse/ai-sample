@@ -1,10 +1,10 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Icons } from '@/components/ui/Icons';
+import { useAuth } from '@/hooks/useAuth';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   showAuthButtons?: boolean;
@@ -27,9 +27,14 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* ロゴ */}
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+          <Link
+            href="/"
+            className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+          >
             <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg lg:text-xl">ト</span>
+              <span className="text-white font-bold text-lg lg:text-xl">
+                ト
+              </span>
             </div>
             <div>
               <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
@@ -45,11 +50,11 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
           <nav className="hidden md:flex items-center space-x-6">
             {user ? (
               <>
-                <Link 
-                  href="/profile" 
+                <Link
+                  href="/profile"
                   className={`relative transition-colors text-lg ${
-                    isActive('/profile') 
-                      ? 'text-primary-600 font-medium' 
+                    isActive('/profile')
+                      ? 'text-primary-600 font-medium'
                       : 'text-gray-700 hover:text-primary-600'
                   }`}
                 >
@@ -58,11 +63,11 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-600 rounded-full"></span>
                   )}
                 </Link>
-                <Link 
-                  href="/matches" 
+                <Link
+                  href="/matches"
                   className={`relative transition-colors text-lg ${
-                    isActive('/matches') 
-                      ? 'text-primary-600 font-medium' 
+                    isActive('/matches')
+                      ? 'text-primary-600 font-medium'
                       : 'text-gray-700 hover:text-primary-600'
                   }`}
                 >
@@ -71,11 +76,11 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-600 rounded-full"></span>
                   )}
                 </Link>
-                <Link 
-                  href="/communities" 
+                <Link
+                  href="/communities"
                   className={`relative transition-colors text-lg ${
-                    isActive('/communities') 
-                      ? 'text-primary-600 font-medium' 
+                    isActive('/communities')
+                      ? 'text-primary-600 font-medium'
                       : 'text-gray-700 hover:text-primary-600'
                   }`}
                 >
@@ -87,11 +92,11 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
               </>
             ) : (
               <>
-                <Link 
-                  href="/concept" 
+                <Link
+                  href="/concept"
                   className={`relative transition-colors text-lg ${
-                    isActive('/concept') 
-                      ? 'text-primary-600 font-medium' 
+                    isActive('/concept')
+                      ? 'text-primary-600 font-medium'
                       : 'text-gray-700 hover:text-primary-600'
                   }`}
                 >
@@ -100,11 +105,11 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-600 rounded-full"></span>
                   )}
                 </Link>
-                <Link 
-                  href="/service" 
+                <Link
+                  href="/service"
                   className={`relative transition-colors text-lg ${
-                    isActive('/service') 
-                      ? 'text-primary-600 font-medium' 
+                    isActive('/service')
+                      ? 'text-primary-600 font-medium'
                       : 'text-gray-700 hover:text-primary-600'
                   }`}
                 >
@@ -113,11 +118,11 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
                     <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-600 rounded-full"></span>
                   )}
                 </Link>
-                <Link 
-                  href="/pricing" 
+                <Link
+                  href="/pricing"
                   className={`relative transition-colors text-lg ${
-                    isActive('/pricing') 
-                      ? 'text-primary-600 font-medium' 
+                    isActive('/pricing')
+                      ? 'text-primary-600 font-medium'
                       : 'text-gray-700 hover:text-primary-600'
                   }`}
                 >
@@ -148,8 +153,8 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
                     <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                       <Icons.user className="h-6 w-6 text-gray-600" />
                     </div>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={handleSignOut}
                       className="hidden sm:inline-flex"
                     >
@@ -165,9 +170,7 @@ export function Header({ showAuthButtons = true }: HeaderProps) {
                     </Button>
                   </Link>
                   <Link href="/auth/register">
-                    <Button>
-                      新規登録
-                    </Button>
+                    <Button>新規登録</Button>
                   </Link>
                 </>
               )}
