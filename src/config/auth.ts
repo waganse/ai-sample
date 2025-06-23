@@ -53,10 +53,6 @@ export const PROVIDER_CONFIG: Record<AuthProvider, OAuthOptions> = {
     redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}${AUTH_CONFIG.REDIRECT_URL}`,
     scopes: 'email public_profile',
   },
-  line: {
-    redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}${AUTH_CONFIG.REDIRECT_URL}`,
-    scopes: 'profile openid email',
-  },
 };
 
 // サインイン時のメール認証設定

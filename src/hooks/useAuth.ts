@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
+import { OAuthProvider } from '@/config/brandColors';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,7 +22,7 @@ export function useAuth() {
 
     // 認証状態の変更を監視
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_event, session) => {
         setUser(session?.user ?? null);
         setLoading(false);
       }
@@ -30,7 +31,7 @@ export function useAuth() {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  const signInWithEmail = async (email: string) => {
+  const signInWithMagicLink = async (email: string) => {
     try {
       // APIエンドポイント経由でユーザー存在確認
       const response = await fetch('/api/auth/check-user', {
@@ -55,11 +56,12 @@ export function useAuth() {
         throw new Error('メールアドレスがまだ確認されていません。登録時のメールをご確認ください。');
       }
 
-      // 既存ユーザーにのみOTPを送信
+      // 既存ユーザーにMagic Linkを送信
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
 
@@ -71,7 +73,7 @@ export function useAuth() {
     }
   };
 
-  const signUpWithEmail = async (email: string) => {
+  const signUpWithMagicLink = async (email: string) => {
     try {
       // APIエンドポイント経由でユーザー存在確認
       const response = await fetch('/api/auth/check-user', {
@@ -96,11 +98,12 @@ export function useAuth() {
         }
       }
 
-      // 新規ユーザーのOTP送信
+      // 新規ユーザーのMagic Link送信
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true, // 新規ユーザー作成を許可
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             user_type: 'senior',
             registration_source: 'tomorie_app',
@@ -116,9 +119,9 @@ export function useAuth() {
     }
   };
 
-  const signInWithProvider = async (provider: 'google' | 'facebook' | 'line') => {
+  const signInWithProvider = async (provider: OAuthProvider) => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider as any,
+      provider: provider as 'google' | 'facebook',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
@@ -131,22 +134,12 @@ export function useAuth() {
     return { error };
   };
 
-  const verifyOtp = async (email: string, token: string) => {
-    const { data, error } = await supabase.auth.verifyOtp({
-      email,
-      token,
-      type: 'email',
-    });
-    return { data, error };
-  };
-
   return {
     user,
     loading,
-    signInWithEmail,
-    signUpWithEmail,
+    signInWithMagicLink,
+    signUpWithMagicLink,
     signInWithProvider,
     signOut,
-    verifyOtp,
   };
 }

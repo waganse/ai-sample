@@ -10,7 +10,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { calculateAge } from '@/lib/utils';
 import {
   EDUCATION_OPTIONS,
-  PREFECTURES,
   profileSetupSchema,
   step1Schema,
   step2Schema,
@@ -19,7 +18,7 @@ import {
   step5Schema,
 } from '@/lib/validations/profile';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 
 interface FormData {
@@ -31,6 +30,18 @@ interface FormData {
   occupation: string;
   education: string;
   introduction: string;
+}
+
+interface Prefecture {
+  code: string;
+  name: string;
+  hiragana: string;
+}
+
+interface Municipality {
+  code_as_string: string;
+  name: string;
+  prefecture_code: number;
 }
 
 export default function ProfileSetupPage() {
@@ -52,11 +63,96 @@ export default function ProfileSetupPage() {
     introduction: '',
   });
 
+  // State for API data
+  const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
+  const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
+  const [prefecturesLoading, setPrefecturesLoading] = useState(false);
+  const [municipalitiesLoading, setMunicipalitiesLoading] = useState(false);
+  const [prefecturesError, setPrefecturesError] = useState<string>('');
+  const [municipalitiesError, setMunicipalitiesError] = useState<string>('');
+
+  // 都道府県データ取得
+  useEffect(() => {
+    const fetchPrefectures = async () => {
+      setPrefecturesLoading(true);
+      setPrefecturesError('');
+      try {
+        const response = await fetch('/api/geo/prefectures');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch prefectures: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setPrefectures(data.prefectures || []);
+      } catch (error) {
+        console.error('Error fetching prefectures:', error);
+        setPrefecturesError('都道府県データの取得に失敗しました');
+      } finally {
+        setPrefecturesLoading(false);
+      }
+    };
+
+    fetchPrefectures();
+  }, []);
+
+  // 市区町村データ取得（都道府県選択時のみ）
+  const selectedPrefecture = prefectures.find(
+    (p) => p.name === profileData.prefecture
+  );
+
+  useEffect(() => {
+    if (!selectedPrefecture) {
+      setMunicipalities([]);
+      return;
+    }
+
+    const fetchMunicipalities = async () => {
+      setMunicipalitiesLoading(true);
+      setMunicipalitiesError('');
+      try {
+        const response = await fetch(
+          `/api/geo/municipalities?prefCode=${selectedPrefecture.code}`
+        );
+        if (!response.ok) {
+          throw new Error(`Failed to fetch municipalities: ${response.status}`);
+        }
+        const data = await response.json();
+        setMunicipalities(data.municipalities || []);
+      } catch (error) {
+        console.error('Error fetching municipalities:', error);
+        setMunicipalitiesError('市区町村データの取得に失敗しました');
+      } finally {
+        setMunicipalitiesLoading(false);
+      }
+    };
+
+    fetchMunicipalities();
+  }, [selectedPrefecture]);
+
   const handleInputChange = (field: keyof FormData, value: string) => {
     setProfileData((prev) => ({
       ...prev,
       [field]: value,
     }));
+
+    // 都道府県が変更された場合、市区町村をリセット
+    if (field === 'prefecture') {
+      setProfileData((prev) => ({
+        ...prev,
+        prefecture: value,
+        city: '', // 市区町村をリセット
+      }));
+
+      // 市区町村のエラーもクリア
+      if (fieldErrors.city) {
+        setFieldErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors.city;
+          return newErrors;
+        });
+      }
+    }
 
     // フィールドエラーをクリア
     if (fieldErrors[field]) {
@@ -124,33 +220,42 @@ export default function ProfileSetupPage() {
       // 最終バリデーション
       const validatedData = profileSetupSchema.parse(profileData);
 
-      const profilePayload = {
-        display_name: validatedData.displayName,
-        birth_date: validatedData.birthDate,
-        gender: validatedData.gender,
-        prefecture: validatedData.prefecture,
-        city: validatedData.city,
-        occupation: validatedData.occupation,
-        education: validatedData.education,
-        introduction: validatedData.introduction || '',
-      };
-
-      // プロフィール作成API呼び出し（実装予定）
+      // REST APIでプロフィール作成
       const response = await fetch('/api/profile/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(profilePayload),
+        body: JSON.stringify(validatedData),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('プロフィールの作成に失敗しました');
+        if (response.status === 400 && data.details) {
+          // バリデーションエラーの処理
+          const validationErrors: Record<string, string> = {};
+          data.details.forEach((err: any) => {
+            validationErrors[err.field] = err.message;
+          });
+          setFieldErrors(validationErrors);
+          setError('入力内容を確認してください');
+          return;
+        }
+        throw new Error(data.error || 'プロフィールの作成に失敗しました');
       }
 
-      // 成功時はダッシュボードにリダイレクト
-      router.push('/dashboard');
+      if (data.success) {
+        // 成功時はダッシュボードにリダイレクト
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 100);
+      } else {
+        throw new Error('プロフィールの作成に失敗しました');
+      }
     } catch (error: any) {
+      console.error('Profile creation error:', error);
+
       if (error instanceof z.ZodError) {
         const errors: Record<string, string> = {};
         error.errors.forEach((err) => {
@@ -160,6 +265,8 @@ export default function ProfileSetupPage() {
         });
         setFieldErrors(errors);
         setError('入力内容を確認してください');
+      } else if (error.message) {
+        setError(error.message);
       } else {
         setError(error.message || 'プロフィールの作成に失敗しました');
       }
@@ -168,8 +275,14 @@ export default function ProfileSetupPage() {
     }
   };
 
+  // クライアントサイドでのリダイレクト処理
+  useEffect(() => {
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, [user, router]);
+
   if (!user) {
-    router.push('/auth/login');
     return null;
   }
 
@@ -334,11 +447,14 @@ export default function ProfileSetupPage() {
                     handleInputChange('prefecture', e.target.value)
                   }
                   className={`w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${fieldErrors.prefecture ? 'border-red-500' : ''}`}
+                  disabled={prefecturesLoading}
                 >
-                  <option value="">選択してください</option>
-                  {PREFECTURES.map((pref) => (
-                    <option key={pref} value={pref}>
-                      {pref}
+                  <option value="">
+                    {prefecturesLoading ? '読み込み中...' : '選択してください'}
+                  </option>
+                  {prefectures.map((pref) => (
+                    <option key={pref.code} value={pref.name}>
+                      {pref.name}
                     </option>
                   ))}
                 </select>
@@ -353,17 +469,47 @@ export default function ProfileSetupPage() {
                 <label className="block text-lg font-medium text-gray-700 mb-3">
                   市区町村
                 </label>
-                <Input
+                <select
                   value={profileData.city}
                   onChange={(e) => handleInputChange('city', e.target.value)}
-                  placeholder="新宿区"
-                  className={`text-lg ${fieldErrors.city ? 'border-red-500' : ''}`}
-                />
+                  className={`w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                    fieldErrors.city ? 'border-red-500' : ''
+                  } ${!profileData.prefecture || (municipalities.length === 0 && !municipalitiesLoading) ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                  disabled={
+                    !profileData.prefecture ||
+                    (municipalities.length === 0 && !municipalitiesLoading)
+                  }
+                >
+                  <option value="">
+                    {!profileData.prefecture
+                      ? '都道府県を先に選択してください'
+                      : municipalitiesLoading
+                        ? '読み込み中...'
+                        : municipalities.length === 0
+                          ? '選択可能な市区町村がありません'
+                          : '市区町村を選択してください'}
+                  </option>
+                  {municipalities.map((municipality) => (
+                    <option
+                      key={municipality.code_as_string}
+                      value={municipality.name}
+                    >
+                      {municipality.name}
+                    </option>
+                  ))}
+                </select>
                 {fieldErrors.city && (
                   <p className="text-sm text-red-600 mt-1">
                     {fieldErrors.city}
                   </p>
                 )}
+                {municipalities.length === 0 &&
+                  profileData.prefecture &&
+                  !municipalitiesLoading && (
+                    <p className="text-sm text-gray-500 mt-1">
+                      該当する市区町村が見つからない場合は、お近くの市区町村を選択してください
+                    </p>
+                  )}
               </div>
             </div>
           )}

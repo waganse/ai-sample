@@ -1,7 +1,7 @@
 import { User } from '@supabase/supabase-js';
 
 // 基本的な認証プロバイダー型
-export type AuthProvider = 'google' | 'facebook' | 'line';
+export type AuthProvider = 'google' | 'facebook';
 
 // 認証結果型
 export interface AuthResult<T = any> {
@@ -22,11 +22,12 @@ export interface AuthState {
   isAuthenticated: boolean;
 }
 
-// OTP検証パラメータ型
-export interface OtpVerificationParams {
-  email: string;
-  token: string;
-  type?: 'email'; // Supabaseでは'email'のみサポート
+// Magic Link認証設定型
+export interface MagicLinkOptions {
+  redirectTo?: string;
+  shouldCreateUser?: boolean;
+  data?: Record<string, any>;
+  captchaToken?: string;
 }
 
 // OAuth設定型
@@ -68,13 +69,12 @@ export interface AuthError extends Error {
 
 // 認証アクション型
 export interface AuthActions {
-  signInWithEmail: (email: string) => Promise<AuthResult>;
-  signUpWithEmail: (email: string) => Promise<AuthResult>;
+  signInWithMagicLink: (email: string) => Promise<AuthResult>;
+  signUpWithMagicLink: (email: string) => Promise<AuthResult>;
   signInWithProvider: (
     provider: AuthProvider,
     options?: OAuthOptions
   ) => Promise<AuthResult>;
-  verifyOtp: (params: OtpVerificationParams) => Promise<AuthResult>;
   signOut: () => Promise<AuthResult>;
   refreshSession: () => Promise<AuthResult>;
 }

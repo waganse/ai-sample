@@ -2,7 +2,7 @@
 
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { AuthNavigationLinks } from '@/components/auth/AuthNavigationLinks';
-import { OtpVerificationForm } from '@/components/auth/OtpVerificationForm';
+import { MagicLinkSentMessage } from '@/components/auth/MagicLinkSentMessage';
 import { SocialAuthSection } from '@/components/auth/SocialAuthSection';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -14,10 +14,10 @@ import { useState } from 'react';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isLinkSent, setIsLinkSent] = useState(false);
   const [error, setError] = useState<string>('');
 
-  const { signInWithEmail, verifyOtp, signInWithProvider } = useAuth();
+  const { signInWithMagicLink, signInWithProvider } = useAuth();
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +25,11 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const result = await signInWithEmail(email);
+      const result = await signInWithMagicLink(email);
       if (result.error) {
         throw result.error;
       }
-      setIsCodeSent(true);
+      setIsLinkSent(true);
     } catch (error: any) {
       console.error('Login error:', error);
 
@@ -43,19 +43,6 @@ export default function LoginPage() {
       }
 
       setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCodeVerification = async (code: string) => {
-    setIsLoading(true);
-    setError('');
-
-    try {
-      await verifyOtp(email, code);
-    } catch (error: any) {
-      setError(error.message || '認証コードの確認に失敗しました');
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +68,7 @@ export default function LoginPage() {
       error={error}
       onErrorClear={() => setError('')}
     >
-      {!isCodeSent ? (
+      {!isLinkSent ? (
         <>
           {/* メールアドレス入力フォーム */}
           <form onSubmit={handleEmailSubmit} className="space-y-6">
@@ -111,11 +98,11 @@ export default function LoginPage() {
             >
               {isLoading ? (
                 <>
-                  <LoadingSpinner size="sm" className="mr-2" />
-                  認証コードを送信中...
+                  <LoadingSpinner size="sm" className="mr-3 text-white" />
+                  ログインリンクを送信中...
                 </>
               ) : (
-                '認証コードを送信'
+                'ログインリンクを送信'
               )}
             </Button>
           </form>
@@ -129,16 +116,13 @@ export default function LoginPage() {
           />
         </>
       ) : (
-        <OtpVerificationForm
+        <MagicLinkSentMessage
           email={email}
-          isLoading={isLoading}
-          onVerify={handleCodeVerification}
+          mode="login"
           onChangeEmail={() => {
-            setIsCodeSent(false);
+            setIsLinkSent(false);
             setError('');
           }}
-          submitButtonText="ログイン"
-          loadingText="認証中..."
         />
       )}
 

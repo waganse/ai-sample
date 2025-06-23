@@ -4,7 +4,6 @@ import {
   AuthProvider,
   AuthResult,
   OAuthOptions,
-  OtpVerificationParams,
 } from '@/types/auth';
 import {
   createSignUpUserCheckError,
@@ -15,7 +14,6 @@ import {
   normalizeAuthInput,
   validateAuthProvider,
   validateEmail,
-  validateOtp,
 } from '@/utils/authValidation';
 
 // 認証サービスクラス
@@ -34,9 +32,9 @@ export class AuthService {
     }
   }
 
-  // メールでサインイン
-  async signInWithEmail(email: string): Promise<AuthResult> {
-    this.log('Starting email sign-in', { email });
+  // Magic Linkでサインイン
+  async signInWithMagicLink(email: string): Promise<AuthResult> {
+    this.log('Starting magic link sign-in', { email });
 
     try {
       // 入力値の正規化とバリデーション
@@ -59,23 +57,23 @@ export class AuthService {
         throw userError;
       }
 
-      // OTP送信
-      const otpResult = await authApiClient.sendSignInOtp(normalizedEmail);
-      if (otpResult.error) {
-        throw otpResult.error;
+      // Magic Link送信
+      const result = await authApiClient.signInWithMagicLink(normalizedEmail);
+      if (result.error) {
+        throw result.error;
       }
 
-      this.log('Email sign-in OTP sent successfully');
+      this.log('Magic link sign-in sent successfully');
       return { error: null };
     } catch (error: any) {
-      this.logError('Email sign-in failed', error);
+      this.logError('Magic link sign-in failed', error);
       return { error: mapSupabaseError(error) };
     }
   }
 
-  // メールでサインアップ
-  async signUpWithEmail(email: string): Promise<AuthResult> {
-    this.log('Starting email sign-up', { email });
+  // Magic Linkでサインアップ
+  async signUpWithMagicLink(email: string): Promise<AuthResult> {
+    this.log('Starting magic link sign-up', { email });
 
     try {
       // 入力値の正規化とバリデーション
@@ -98,53 +96,16 @@ export class AuthService {
         throw userError;
       }
 
-      // OTP送信
-      const otpResult = await authApiClient.sendSignUpOtp(normalizedEmail);
-      if (otpResult.error) {
-        throw otpResult.error;
-      }
-
-      this.log('Email sign-up OTP sent successfully');
-      return { error: null };
-    } catch (error: any) {
-      this.logError('Email sign-up failed', error);
-      return { error: mapSupabaseError(error) };
-    }
-  }
-
-  // OTP検証
-  async verifyOtp(params: OtpVerificationParams): Promise<AuthResult> {
-    this.log('Starting OTP verification', { email: params.email });
-
-    try {
-      // 入力値の正規化とバリデーション
-      const normalizedEmail = normalizeAuthInput(params.email, 'email');
-      const normalizedToken = normalizeAuthInput(params.token, 'otp');
-
-      const emailValidation = validateEmail(normalizedEmail);
-      if (!emailValidation.isValid) {
-        throw new Error(emailValidation.error);
-      }
-
-      const otpValidation = validateOtp(normalizedToken);
-      if (!otpValidation.isValid) {
-        throw new Error(otpValidation.error);
-      }
-
-      // OTP検証
-      const result = await authApiClient.verifyOtp(
-        normalizedEmail,
-        normalizedToken
-      );
-
+      // Magic Link送信
+      const result = await authApiClient.signUpWithMagicLink(normalizedEmail);
       if (result.error) {
         throw result.error;
       }
 
-      this.log('OTP verification successful');
-      return result;
+      this.log('Magic link sign-up sent successfully');
+      return { error: null };
     } catch (error: any) {
-      this.logError('OTP verification failed', error);
+      this.logError('Magic link sign-up failed', error);
       return { error: mapSupabaseError(error) };
     }
   }

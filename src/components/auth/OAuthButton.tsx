@@ -29,13 +29,6 @@ const PROVIDER_CONFIG = {
       login: 'Facebookでログイン',
       signup: 'Facebookで登録'
     }
-  },
-  line: {
-    icon: 'line' as const,
-    defaultText: {
-      login: 'LINEでログイン',
-      signup: 'LINEで登録'
-    }
   }
 } as const;
 
@@ -65,8 +58,6 @@ export function OAuthButton({
         return `${baseClasses} ${styles.googleButton}`;
       case 'facebook':
         return `${baseClasses} ${styles.facebookButton}`;
-      case 'line':
-        return `${baseClasses} ${styles.lineButton}`;
       default:
         return `${baseClasses} ${styles.disabledButton}`;
     }
@@ -90,8 +81,6 @@ export function OAuthButton({
         return <Icons.google className="w-5 h-5 mr-3" />;
       case 'facebook':
         return <Icons.facebook className="w-5 h-5 mr-3" />;
-      case 'line':
-        return <Icons.line className="w-5 h-5 mr-3" />;
       default:
         return null;
     }
@@ -119,9 +108,6 @@ export function FacebookOAuthButton(props: Omit<OAuthButtonProps, 'provider'>) {
   return <OAuthButton {...props} provider="facebook" />;
 }
 
-export function LineOAuthButton(props: Omit<OAuthButtonProps, 'provider'>) {
-  return <OAuthButton {...props} provider="line" />;
-}
 
 // まとめてOAuthボタンを表示するコンポーネント
 interface OAuthButtonGroupProps {
@@ -139,7 +125,7 @@ export function OAuthButtonGroup({
   mode = 'login',
   className = '',
 }: OAuthButtonGroupProps) {
-  const providers: OAuthProvider[] = ['line', 'google', 'facebook'];
+  const providers: OAuthProvider[] = ['google', 'facebook'];
 
   return (
     <div className={`space-y-3 ${className}`}>

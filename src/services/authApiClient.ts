@@ -1,6 +1,6 @@
 import { AUTH_CONFIG, HTTP_HEADERS } from '@/config/auth';
 import { createClient } from '@/lib/supabase/client';
-import { AuthProvider, AuthResult, UserCheckResult } from '@/types/auth';
+import { AuthProvider, AuthResult, MagicLinkOptions, UserCheckResult } from '@/types/auth';
 import { mapSupabaseError } from '@/utils/authErrors';
 
 // HTTP クライアントのベースクラス
@@ -40,6 +40,7 @@ class BaseApiClient {
   }
 }
 
+
 // 認証API クライアント
 export class AuthApiClient extends BaseApiClient {
   private supabase = createClient();
@@ -62,13 +63,16 @@ export class AuthApiClient extends BaseApiClient {
     }
   }
 
-  // メールでのOTP送信（サインイン用）
-  async sendSignInOtp(email: string): Promise<AuthResult> {
+  // Magic Linkでのサインイン
+  async signInWithMagicLink(email: string): Promise<AuthResult> {
     try {
       const { error } = await this.supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: false,
+          emailRedirectTo: typeof window !== 'undefined' 
+            ? `${window.location.origin}${AUTH_CONFIG.REDIRECT_URL}`
+            : AUTH_CONFIG.REDIRECT_URL,
         },
       });
 
@@ -79,35 +83,22 @@ export class AuthApiClient extends BaseApiClient {
     }
   }
 
-  // メールでのOTP送信（サインアップ用）
-  async sendSignUpOtp(email: string): Promise<AuthResult> {
+  // Magic Linkでのサインアップ
+  async signUpWithMagicLink(email: string): Promise<AuthResult> {
     try {
       const { error } = await this.supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true,
           data: AUTH_CONFIG.USER_METADATA,
+          emailRedirectTo: typeof window !== 'undefined' 
+            ? `${window.location.origin}${AUTH_CONFIG.REDIRECT_URL}`
+            : AUTH_CONFIG.REDIRECT_URL,
         },
       });
 
       if (error) throw error;
       return { error: null };
-    } catch (error: any) {
-      return { error: mapSupabaseError(error) };
-    }
-  }
-
-  // OTP検証
-  async verifyOtp(email: string, token: string): Promise<AuthResult> {
-    try {
-      const { data, error } = await this.supabase.auth.verifyOtp({
-        email,
-        token,
-        type: 'email', // Supabaseでは'email'のみサポート
-      });
-
-      if (error) throw error;
-      return { data, error: null };
     } catch (error: any) {
       return { error: mapSupabaseError(error) };
     }
@@ -117,7 +108,7 @@ export class AuthApiClient extends BaseApiClient {
   async signInWithOAuth(provider: AuthProvider): Promise<AuthResult> {
     try {
       const { error } = await this.supabase.auth.signInWithOAuth({
-        provider: provider as any, // 型の問題を回避
+        provider: provider,
         options: {
           redirectTo: typeof window !== 'undefined' 
             ? `${window.location.origin}${AUTH_CONFIG.REDIRECT_URL}`

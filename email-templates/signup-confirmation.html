@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>トモリエへようこそ</title>
+    <style>
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .welcome {
+            font-size: 20px;
+            color: #374151;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .features {
+            background-color: #f0fdf4;
+            border: 1px solid #d1fae5;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        .features h3 {
+            color: #047857;
+            margin-top: 0;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .feature-list {
+            display: grid;
+            gap: 15px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            color: #047857;
+        }
+        .feature-icon {
+            font-size: 20px;
+            margin-right: 12px;
+            width: 24px;
+        }
+        .info-box {
+            background-color: #f0f4ff;
+            border: 1px solid #e0e7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .info-box h3 {
+            color: #4338ca;
+            margin-top: 0;
+            font-size: 16px;
+        }
+        .info-box ul {
+            color: #4338ca;
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .link-text {
+            word-break: break-all;
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9fafb;
+            border-radius: 6px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            .header, .content {
+                padding: 30px 20px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .cta-button {
+                padding: 16px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌸 トモリエ</h1>
+            <p>心に灯りをともす</p>
+        </div>
+        
+        <div class="content">
+            <div class="welcome">
+                🎉 ようこそ！アカウント登録ありがとうございます
+            </div>
+            
+            <p>トモリエへのご登録を心よりお待ちしておりました。</p>
+            <p>下のボタンをクリックして、アカウントの確認を完了し、素敵な出会いの旅を始めましょう。</p>
+            
+            <div class="button-container">
+                <a href="{{ .ConfirmationURL }}" class="cta-button">
+                    ✨ アカウントを確認する
+                </a>
+            </div>
+            
+            <div class="features">
+                <h3>🌟 トモリエで始まる新しい章</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="feature-icon">💫</span>
+                        <span>同世代の方との素敵な出会い</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🤝</span>
+                        <span>共通の趣味を持つ仲間との繋がり</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🌱</span>
+                        <span>人生経験豊富な方々とのコミュニティ</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔒</span>
+                        <span>安心・安全なプラットフォーム</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h3>📧 次のステップ</h3>
+                <ul>
+                    <li>確認リンクは<strong>24時間</strong>有効です</li>
+                    <li>確認後、プロフィール設定を完了してください</li>
+                    <li>素敵な出会いを始める準備完了です！</li>
+                </ul>
+            </div>
+            
+            <p>確認ボタンが機能しない場合は、以下のリンクをブラウザにコピー＆ペーストしてください：</p>
+            <div class="link-text">
+                {{ .ConfirmationURL }}
+            </div>
+            
+            <p style="margin-top: 30px; text-align: center; color: #6b7280;">
+                ご質問やサポートが必要な場合は、いつでもお気軽にお問い合わせください。<br>
+                皆様の素敵な出会いを心から応援しています。
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>トモリエ（Tomorie）</strong></p>
+            <p>60歳からの素敵な出会いとコミュニティ</p>
+            <p>このメールは {{ .Email }} 宛に送信されました</p>
+            <p style="margin-top: 20px; color: #9ca3af; font-size: 12px;">
+                © 2024 Tomorie. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,126 +1,109 @@
-import { prisma } from '@/lib/prisma';
-import { createClient } from '@/lib/supabase/server';
-import { profileCreateApiSchema } from '@/lib/validations/profile';
-import { Gender, LookingFor } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
+import { prisma } from '@/lib/prisma';
+import { profileSetupSchema } from '@/lib/validations/profile';
 import { z } from 'zod';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient();
-
-    // 認証確認
-    const {
-      data: { session },
-      error: authError,
-    } = await supabase.auth.getSession();
-
-    if (authError || !session?.user) {
-      return NextResponse.json({ error: '認証が必要です' }, { status: 401 });
-    }
-
-    const body = await request.json();
-
-    // Zodバリデーション
-    let validatedData;
-    try {
-      validatedData = profileCreateApiSchema.parse(body);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const errorMessages = error.errors.map((err) => err.message).join(', ');
-        return NextResponse.json(
-          { error: `バリデーションエラー: ${errorMessages}` },
-          { status: 400 }
-        );
+    // Supabase clientの作成
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value;
+          },
+        },
       }
+    );
+
+    // 認証チェック
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
       return NextResponse.json(
-        { error: 'リクエストデータが無効です' },
-        { status: 400 }
+        { error: 'Unauthorized' },
+        { status: 401 }
       );
     }
 
-    const {
-      displayName,
-      birthDate,
-      gender,
-      prefecture,
-      city,
-      occupation,
-      education,
-      introduction,
-    } = validatedData;
+    // リクエストボディの取得とバリデーション
+    const body = await request.json();
+    
+    try {
+      const validatedData = profileSetupSchema.parse(body);
 
-    // 性別のマッピング
-    let genderEnum: Gender;
-    switch (gender.toLowerCase()) {
-      case 'male':
-        genderEnum = Gender.MALE;
-        break;
-      case 'female':
-        genderEnum = Gender.FEMALE;
-        break;
-      case 'other':
-        genderEnum = Gender.OTHER;
-        break;
-      default:
+      // プロフィールが既に存在するかチェック
+      const existingProfile = await prisma.profile.findUnique({
+        where: { userId: user.id },
+      });
+
+      if (existingProfile) {
         return NextResponse.json(
-          { error: '無効な性別が指定されました' },
-          { status: 400 }
-        );
-    }
-
-    // プロフィール作成
-    const user = await prisma.user.create({
-      data: {
-        authId: session.user.id,
-        email: session.user.email!,
-        displayName: displayName,
-        birthDate: new Date(birthDate),
-        gender: genderEnum,
-        prefecture: prefecture,
-        city: city,
-        occupation: occupation,
-        education: education,
-        bio: introduction || null,
-        interests: [],
-        lookingFor: LookingFor.FRIENDSHIP,
-        isVerified: false,
-      },
-    });
-
-    // Supabaseのユーザーメタデータを更新
-    await supabase.auth.updateUser({
-      data: {
-        profile_completed: true,
-        display_name: displayName,
-      },
-    });
-
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: user.id,
-        displayName: user.displayName,
-        birthDate: user.birthDate.toISOString(),
-        prefecture: user.prefecture,
-        city: user.city,
-      },
-    });
-  } catch (error) {
-    console.error('Profile creation error:', error);
-
-    // Prismaエラーの処理
-    if (error instanceof Error) {
-      if (error.message.includes('Unique constraint')) {
-        return NextResponse.json(
-          { error: 'このメールアドレスは既に使用されています' },
+          { error: 'Profile already exists' },
           { status: 409 }
         );
       }
-    }
 
+      // プロフィールの作成
+      const profile = await prisma.profile.create({
+        data: {
+          userId: user.id,
+          displayName: validatedData.displayName,
+          birthDate: new Date(validatedData.birthDate),
+          gender: validatedData.gender.toUpperCase() as 'MALE' | 'FEMALE' | 'OTHER',
+          prefecture: validatedData.prefecture,
+          city: validatedData.city,
+          occupation: validatedData.occupation,
+          education: validatedData.education,
+          introduction: validatedData.introduction || null,
+        },
+      });
+
+      // Supabaseのuser_metadataを更新
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: {
+          profile_completed: true,
+          display_name: validatedData.displayName,
+        },
+      });
+
+      if (updateError) {
+        console.error('Failed to update user metadata:', updateError);
+      }
+
+      return NextResponse.json({
+        success: true,
+        profile: {
+          id: profile.id,
+          displayName: profile.displayName,
+          prefecture: profile.prefecture,
+          city: profile.city,
+        },
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return NextResponse.json(
+          {
+            error: 'Validation error',
+            details: error.errors.map((e) => ({
+              field: e.path.join('.'),
+              message: e.message,
+            })),
+          },
+          { status: 400 }
+        );
+      }
+      throw error;
+    }
+  } catch (error) {
+    console.error('Profile creation error:', error);
     return NextResponse.json(
-      { error: 'プロフィールの作成に失敗しました' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

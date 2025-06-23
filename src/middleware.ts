@@ -1,4 +1,4 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
@@ -8,6 +8,11 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  // APIルートとパブリックページは早期リターン
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    return response;
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -16,7 +21,7 @@ export async function middleware(request: NextRequest) {
         get(name: string) {
           return request.cookies.get(name)?.value;
         },
-        set(name: string, value: string, options: CookieOptions) {
+        set(name: string, value: string, options: any) {
           request.cookies.set({
             name,
             value,
@@ -33,7 +38,7 @@ export async function middleware(request: NextRequest) {
             ...options,
           });
         },
-        remove(name: string, options: CookieOptions) {
+        remove(name: string, options: any) {
           request.cookies.set({
             name,
             value: '',
@@ -62,6 +67,7 @@ export async function middleware(request: NextRequest) {
   // パスの定義
   const protectedPaths = [
     '/dashboard',
+    '/profile/setup',  // 明示的に追加
     '/profile',
     '/matches',
     '/messages',
@@ -129,8 +135,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // APIルートやパブリックページは常に許可
-  if (request.nextUrl.pathname.startsWith('/api') || isPublicPath) {
+  // パブリックページは許可
+  if (isPublicPath) {
     return response;
   }
 

@@ -23,17 +23,6 @@ export const OAUTH_BRAND_COLORS = {
       border: '#DADDE1',
     },
   },
-  line: {
-    primary: '#00C854', // LINE Green (公式カラー)
-    hover: '#00B44A',
-    text: '#FFFFFF',
-    border: '#00C854',
-    disabled: {
-      bg: '#F7F7F7',
-      text: '#999999',
-      border: '#E5E5E5',
-    },
-  },
 } as const;
 
 export type OAuthProvider = keyof typeof OAUTH_BRAND_COLORS;
@@ -52,8 +41,6 @@ export function getOAuthButtonClasses(
       return 'bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm hover:shadow-md ring-1 ring-gray-300';
     case 'facebook':
       return 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600 shadow-md hover:shadow-lg';
-    case 'line':
-      return 'bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md hover:shadow-lg';
     default:
       return 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300';
   }
@@ -66,8 +53,6 @@ export function getOAuthButtonFocusClasses(provider: OAuthProvider): string {
       return 'focus:ring-2 focus:ring-gray-500 focus:ring-offset-2';
     case 'facebook':
       return 'focus:ring-2 focus:ring-blue-500 focus:ring-offset-2';
-    case 'line':
-      return 'focus:ring-2 focus:ring-green-500 focus:ring-offset-2';
     default:
       return 'focus:ring-2 focus:ring-gray-500 focus:ring-offset-2';
   }

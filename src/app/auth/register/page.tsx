@@ -2,7 +2,7 @@
 
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { AuthNavigationLinks } from '@/components/auth/AuthNavigationLinks';
-import { OtpVerificationForm } from '@/components/auth/OtpVerificationForm';
+import { MagicLinkSentMessage } from '@/components/auth/MagicLinkSentMessage';
 import { SocialAuthSection } from '@/components/auth/SocialAuthSection';
 import { TermsAgreementCheckbox } from '@/components/auth/TermsAgreementCheckbox';
 import { Button } from '@/components/ui/Button';
@@ -15,11 +15,11 @@ import { useState } from 'react';
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isLinkSent, setIsLinkSent] = useState(false);
   const [error, setError] = useState<string>('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  const { signUpWithEmail, verifyOtp, signInWithProvider } = useAuth();
+  const { signUpWithMagicLink, signInWithProvider } = useAuth();
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,11 +33,11 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      const result = await signUpWithEmail(email);
+      const result = await signUpWithMagicLink(email);
       if (result.error) {
         throw result.error;
       }
-      setIsCodeSent(true);
+      setIsLinkSent(true);
     } catch (error: any) {
       console.error('Registration error:', error);
 
@@ -52,19 +52,6 @@ export default function RegisterPage() {
       }
 
       setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCodeVerification = async (code: string) => {
-    setIsLoading(true);
-    setError('');
-
-    try {
-      await verifyOtp(email, code);
-    } catch (error: any) {
-      setError(error.message || '認証コードの確認に失敗しました');
     } finally {
       setIsLoading(false);
     }
@@ -95,7 +82,7 @@ export default function RegisterPage() {
       error={error}
       onErrorClear={() => setError('')}
     >
-      {!isCodeSent ? (
+      {!isLinkSent ? (
         <>
           {/* メールアドレス入力フォーム */}
           <form onSubmit={handleEmailSubmit} className="space-y-6">
@@ -132,11 +119,11 @@ export default function RegisterPage() {
             >
               {isLoading ? (
                 <>
-                  <LoadingSpinner size="sm" className="mr-2" />
-                  認証コードを送信中...
+                  <LoadingSpinner size="sm" className="mr-3 text-white" />
+                  確認リンクを送信中...
                 </>
               ) : (
-                '認証コードを送信'
+                '確認リンクを送信'
               )}
             </Button>
           </form>
@@ -152,16 +139,13 @@ export default function RegisterPage() {
           />
         </>
       ) : (
-        <OtpVerificationForm
+        <MagicLinkSentMessage
           email={email}
-          isLoading={isLoading}
-          onVerify={handleCodeVerification}
+          mode="signup"
           onChangeEmail={() => {
-            setIsCodeSent(false);
+            setIsLinkSent(false);
             setError('');
           }}
-          submitButtonText="アカウントを作成"
-          loadingText="アカウント作成中..."
         />
       )}
 

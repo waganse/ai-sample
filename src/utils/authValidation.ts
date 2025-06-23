@@ -34,31 +34,6 @@ export function validateEmail(email: string): ValidationResult {
   return { isValid: true };
 }
 
-// OTPコードのバリデーション
-export function validateOtp(otp: string): ValidationResult {
-  if (!otp) {
-    return {
-      isValid: false,
-      error: '認証コードを入力してください。',
-    };
-  }
-
-  if (otp.length !== VALIDATION_CONFIG.OTP.LENGTH) {
-    return {
-      isValid: false,
-      error: `認証コードは${VALIDATION_CONFIG.OTP.LENGTH}桁で入力してください。`,
-    };
-  }
-
-  if (!VALIDATION_CONFIG.OTP.REGEX.test(otp)) {
-    return {
-      isValid: false,
-      error: '認証コードは数字のみで入力してください。',
-    };
-  }
-
-  return { isValid: true };
-}
 
 // パスワードのバリデーション
 export function validatePassword(password: string): ValidationResult {
@@ -110,7 +85,7 @@ export function validatePasswordConfirm(
 
 // 認証プロバイダーのバリデーション
 export function validateAuthProvider(provider: string): ValidationResult {
-  const validProviders = ['google', 'facebook', 'line'];
+  const validProviders = ['google', 'facebook'];
 
   if (!provider) {
     return {
@@ -148,19 +123,6 @@ export function validateSignUpForm(email: string): ValidationResult {
   return { isValid: true };
 }
 
-export function validateOtpForm(email: string, otp: string): ValidationResult {
-  const emailValidation = validateEmail(email);
-  if (!emailValidation.isValid) {
-    return emailValidation;
-  }
-
-  const otpValidation = validateOtp(otp);
-  if (!otpValidation.isValid) {
-    return otpValidation;
-  }
-
-  return { isValid: true };
-}
 
 // エラーからバリデーションエラーを作成
 export function createValidationError(message: string) {
@@ -172,20 +134,14 @@ export function sanitizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
-export function sanitizeOtp(otp: string): string {
-  return otp.replace(/\D/g, ''); // 数字以外を除去
-}
-
 // 認証フィールドの正規化
 export function normalizeAuthInput(
   input: string,
-  type: 'email' | 'otp'
+  type: 'email'
 ): string {
   switch (type) {
     case 'email':
       return sanitizeEmail(input);
-    case 'otp':
-      return sanitizeOtp(input);
     default:
       return input.trim();
   }

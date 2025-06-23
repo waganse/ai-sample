@@ -7,70 +7,78 @@ import { ErrorMessage } from '@/components/ui/ErrorBoundary';
 import { Icons } from '@/components/ui/Icons';
 import { LoadingOverlay } from '@/components/ui/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-
-interface DashboardStats {
+interface UserStats {
   newMatches: number;
   unreadMessages: number;
   profileViews: number;
   upcomingEvents: number;
 }
 
-interface RecentActivity {
+interface Activity {
   id: string;
-  type: 'match' | 'message' | 'like' | 'event';
+  type: string;
   title: string;
   description: string;
-  time: string;
-  avatar?: string;
+  createdAt: string;
 }
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
-  const [stats, setStats] = useState<DashboardStats>({
+  const [stats, setStats] = useState<UserStats>({
     newMatches: 0,
     unreadMessages: 0,
     profileViews: 0,
     upcomingEvents: 0,
   });
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string>('');
+  const [recentActivity, setRecentActivity] = useState<Activity[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // ダッシュボードデータの取得
+  const fetchDashboardData = async () => {
+    if (!user) return;
+    
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      // 統計データの取得
+      const [statsRes, activityRes] = await Promise.all([
+        fetch('/api/dashboard/stats'),
+        fetch('/api/dashboard/activity'),
+      ]);
+      
+      if (!statsRes.ok || !activityRes.ok) {
+        throw new Error('データの読み込みに失敗しました');
+      }
+      
+      const [statsData, activityData] = await Promise.all([
+        statsRes.json(),
+        activityRes.json(),
+      ]);
+      
+      setStats(statsData.stats || {
+        newMatches: 0,
+        unreadMessages: 0,
+        profileViews: 0,
+        upcomingEvents: 0,
+      });
+      setRecentActivity(activityData.activities || []);
+    } catch (error) {
+      console.error('Dashboard data error:', error);
+      setError('データの読み込みに失敗しました');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && user) {
       fetchDashboardData();
     }
-  }, [user, authLoading]);
-
-  const fetchDashboardData = async () => {
-    try {
-      setIsLoading(true);
-      setError('');
-
-      // ダッシュボードデータを取得（実装予定）
-      const [statsRes, activityRes] = await Promise.all([
-        fetch('/api/dashboard/stats'),
-        fetch('/api/dashboard/activity'),
-      ]);
-
-      if (statsRes.ok) {
-        const statsData = await statsRes.json();
-        setStats(statsData);
-      }
-
-      if (activityRes.ok) {
-        const activityData = await activityRes.json();
-        setRecentActivity(activityData);
-      }
-    } catch (error: any) {
-      setError('データの読み込みに失敗しました');
-      console.error('Dashboard data fetch error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [authLoading, user]);
 
   if (authLoading) {
     return (
@@ -104,7 +112,7 @@ export default function DashboardPage() {
                 <ErrorMessage
                   title="データ読み込みエラー"
                   message={error}
-                  onRetry={fetchDashboardData}
+                  onRetry={() => fetchDashboardData()}
                 />
               </div>
             )}
@@ -212,10 +220,30 @@ export default function DashboardPage() {
                     <h2 className="text-2xl font-semibold text-gray-900">
                       最近のアクティビティ
                     </h2>
-                    <Button variant="ghost" size="sm">
-                      すべて表示
-                    </Button>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => fetchDashboardData()}
+                        disabled={isLoading}
+                      >
+                        <Icons.loader className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+                        更新
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        すべて表示
+                      </Button>
+                    </div>
                   </div>
+
+                  {error && (
+                    <div className="mb-4">
+                      <ErrorMessage
+                        message={error}
+                        onRetry={() => fetchDashboardData()}
+                      />
+                    </div>
+                  )}
 
                   {recentActivity.length === 0 ? (
                     <div className="text-center py-8">
@@ -229,37 +257,60 @@ export default function DashboardPage() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {recentActivity.map((activity) => (
-                        <div
-                          key={activity.id}
-                          className="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors"
-                        >
-                          <div className="flex-shrink-0">
-                            {activity.avatar ? (
-                              <img
-                                src={activity.avatar}
-                                alt=""
-                                className="w-10 h-10 rounded-full"
-                              />
-                            ) : (
-                              <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                                <Icons.user className="w-5 h-5 text-gray-600" />
+                      {recentActivity.map((activity) => {
+                        // アクティビティタイプに応じたアイコンを選択
+                        const getActivityIcon = (type: string) => {
+                          switch (type) {
+                            case 'MATCH':
+                              return <Icons.heart className="w-5 h-5 text-pink-600" />;
+                            case 'MESSAGE':
+                              return <Icons.message className="w-5 h-5 text-blue-600" />;
+                            case 'LIKE':
+                              return <Icons.heart className="w-5 h-5 text-red-600" />;
+                            case 'EVENT_PARTICIPATE':
+                              return <Icons.calendar className="w-5 h-5 text-green-600" />;
+                            default:
+                              return <Icons.user className="w-5 h-5 text-gray-600" />;
+                          }
+                        };
+
+                        // 時間を相対的な表示に変換
+                        const formatRelativeTime = (dateString: string) => {
+                          const date = new Date(dateString);
+                          const now = new Date();
+                          const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+                          
+                          if (diffInHours < 1) return '1時間未満';
+                          if (diffInHours < 24) return `${diffInHours}時間前`;
+                          const diffInDays = Math.floor(diffInHours / 24);
+                          if (diffInDays < 7) return `${diffInDays}日前`;
+                          return date.toLocaleDateString('ja-JP');
+                        };
+
+                        return (
+                          <div
+                            key={activity.id}
+                            className="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                          >
+                            <div className="flex-shrink-0">
+                              <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                                {getActivityIcon(activity.type)}
                               </div>
-                            )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-lg font-medium text-gray-900">
+                                {activity.title}
+                              </p>
+                              <p className="text-gray-600">
+                                {activity.description}
+                              </p>
+                              <p className="text-sm text-gray-500 mt-1">
+                                {formatRelativeTime(activity.createdAt)}
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-lg font-medium text-gray-900">
-                              {activity.title}
-                            </p>
-                            <p className="text-gray-600">
-                              {activity.description}
-                            </p>
-                            <p className="text-sm text-gray-500 mt-1">
-                              {activity.time}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </Card>

@@ -1,0 +1,247 @@
+
+> simploop@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.16
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1404ms
+ ✓ Compiled /src/middleware in 175ms (143 modules)
+ ✓ Compiled /api/geo/prefectures in 198ms (54 modules)
+Fetching prefectures from 国土交通省 API...
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '2638',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:21:07 GMT',
+  etag: 'W/"a4e-0NzqIsl7/748HROEbrVdCs6R4Ds"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    prefecture: [
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object]
+    ]
+  }
+}
+ GET /api/geo/prefectures 200 in 323ms
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (100kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ○ Compiling /profile/setup ...
+ ✓ Compiled /profile/setup in 2.6s (716 modules)
+ GET /profile/setup 200 in 2850ms
+ ✓ Compiled in 255ms (347 modules)
+ GET /profile/setup 200 in 13ms
+ GET /profile/setup 200 in 15ms
+ GET /profile/setup 200 in 17ms
+ GET /profile/setup 200 in 15ms
+ ✓ Compiled /api/geo/prefectures in 94ms (390 modules)
+Fetching prefectures from 国土交通省 API...
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '2638',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:22:57 GMT',
+  etag: 'W/"a4e-0NzqIsl7/748HROEbrVdCs6R4Ds"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    prefecture: [
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object]
+    ]
+  }
+}
+ GET /api/geo/prefectures 200 in 293ms
+Fetching prefectures from 国土交通省 API...
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '2638',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:22:57 GMT',
+  etag: 'W/"a4e-0NzqIsl7/748HROEbrVdCs6R4Ds"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    prefecture: [
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object]
+    ]
+  }
+}
+ GET /api/geo/prefectures 200 in 20ms
+ GET /profile/setup 200 in 71ms
+ GET /profile/setup 200 in 14ms
+ GET /profile/setup 200 in 22ms
+ GET /profile/setup 200 in 19ms
+ GET /profile/setup 200 in 11ms
+Fetching prefectures from 国土交通省 API...
+Fetching prefectures from 国土交通省 API...
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '2638',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:23:06 GMT',
+  etag: 'W/"a4e-0NzqIsl7/748HROEbrVdCs6R4Ds"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    prefecture: [
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object]
+    ]
+  }
+}
+ GET /api/geo/prefectures 200 in 88ms
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '2638',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:23:06 GMT',
+  etag: 'W/"a4e-0NzqIsl7/748HROEbrVdCs6R4Ds"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    prefecture: [
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object]
+    ]
+  }
+}
+ GET /api/geo/prefectures 200 in 90ms
+ ✓ Compiled /api/geo/municipalities in 63ms (392 modules)
+Fetching municipalities for prefecture code: 14
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '4585',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:23:29 GMT',
+  etag: 'W/"11e9-QT/vpf9o3dtY8xUfC8FPxlWUWnY"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    municipalities: [
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object], [Object],
+      [Object]
+    ]
+  }
+}
+ GET /api/geo/municipalities?prefCode=14 200 in 130ms
+Fetching municipalities for prefecture code: 43
+Response status: 200
+Response headers: {
+  connection: 'keep-alive',
+  'content-length': '3777',
+  'content-security-policy': "frame-ancestors 'self';",
+  'content-type': 'application/json; charset=utf-8',
+  date: 'Mon, 23 Jun 2025 01:23:37 GMT',
+  etag: 'W/"ec1-gs4g6LSMHw0EV7dfEPnzCxeTlKY"',
+  server: 'nginx',
+  'x-powered-by': 'Express'
+}
+API response: {
+  data: {
+    municipalities: [
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object], [Object], [Object],
+      [Object], [Object]
+    ]
+  }
+}
+ GET /api/geo/municipalities?prefCode=43 200 in 50ms

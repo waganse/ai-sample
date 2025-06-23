@@ -127,24 +127,19 @@ export function AuthProvider({
   }, [setUser]);
 
   // 認証アクション
-  const signInWithEmail = async (email: string) => {
-    log('Sign in with email requested', { email });
-    return authService.signInWithEmail(email);
+  const signInWithMagicLink = async (email: string) => {
+    log('Sign in with magic link requested', { email });
+    return authService.signInWithMagicLink(email);
   };
 
-  const signUpWithEmail = async (email: string) => {
-    log('Sign up with email requested', { email });
-    return authService.signUpWithEmail(email);
+  const signUpWithMagicLink = async (email: string) => {
+    log('Sign up with magic link requested', { email });
+    return authService.signUpWithMagicLink(email);
   };
 
   const signInWithProvider = async (provider: any, options?: any) => {
     log('Sign in with provider requested', { provider });
     return authService.signInWithProvider(provider, options);
-  };
-
-  const verifyOtp = async (params: any) => {
-    log('OTP verification requested', { email: params.email });
-    return authService.verifyOtp(params);
   };
 
   const signOut = async () => {
@@ -172,10 +167,9 @@ export function AuthProvider({
     ...authState,
 
     // アクション
-    signInWithEmail,
-    signUpWithEmail,
+    signInWithMagicLink,
+    signUpWithMagicLink,
     signInWithProvider,
-    verifyOtp,
     signOut,
     refreshSession,
   };
@@ -205,19 +199,17 @@ export function useAuthState() {
 // カスタムフック: 認証アクションのみ
 export function useAuthActions() {
   const {
-    signInWithEmail,
-    signUpWithEmail,
+    signInWithMagicLink,
+    signUpWithMagicLink,
     signInWithProvider,
-    verifyOtp,
     signOut,
     refreshSession,
   } = useAuthContext();
 
   return {
-    signInWithEmail,
-    signUpWithEmail,
+    signInWithMagicLink,
+    signUpWithMagicLink,
     signInWithProvider,
-    verifyOtp,
     signOut,
     refreshSession,
   };
